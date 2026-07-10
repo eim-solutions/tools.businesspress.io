@@ -448,7 +448,6 @@ footer { background: var(--ink); color: var(--white); }
 
 .motion-ready [data-reveal] { transform: translateY(14px); transition: transform 480ms var(--ease-out-quart); }
 .motion-ready [data-reveal].is-visible { transform: none; }
-.hero [data-reveal]:nth-child(2) { transition-delay: 120ms; }
 
 @media (max-width: 1100px) {
   .hero-inner { grid-template-columns: minmax(0, 0.9fr) minmax(430px, 1.1fr); gap: 44px; }
