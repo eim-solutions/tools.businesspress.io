@@ -58,4 +58,6 @@ test('styles include responsive, focus, and reduced-motion behavior', async () =
   assert.match(css, /@media \(max-width: 959px\)/);
   assert.match(css, /@media \(max-width: 639px\)/);
   assert.match(css, /oklch\(/);
+  assert.match(css, /--accent: oklch\(0\.51 0\.23 264\);/);
+  assert.doesNotMatch(css, /oklch\([^)]* 35(?:\s|\))/);
 });

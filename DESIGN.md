@@ -2,22 +2,22 @@
 
 ## Direction
 
-Mood: a precision workshop under clear daylight—calm surfaces, cyan drafting marks, and decisive warm signals. The aesthetic borrows Stripe's color clarity and Linear's product confidence, but uses a more physical, catalog-like composition built around real tool screenshots.
+Mood: a precision workshop under electric-blue grid light—calm white surfaces, deep ink structure, and decisive cobalt signals. The direction follows the upcoming BusinessPress brand's dark operational confidence and vivid blue actions, adapted into a brighter catalog-like composition built around real tool screenshots.
 
 ## Color
 
 Use OKLCH values throughout.
 
 - Background: `oklch(1 0 0)`
-- Surface: `oklch(0.965 0.012 200)`
-- Ink: `oklch(0.18 0.025 220)`
-- Muted ink: `oklch(0.46 0.025 220)`
-- Primary sky: `oklch(0.72 0.12 200)`
-- Primary dark: `oklch(0.33 0.09 205)`
-- Accent coral: `oklch(0.68 0.19 35)`
-- Line: `oklch(0.88 0.018 205)`
+- Surface: `oklch(0.965 0.012 264)`
+- Ink: `oklch(0.18 0.025 264)`
+- Muted ink: `oklch(0.44 0.025 264)`
+- Primary sky: `oklch(0.72 0.14 264)`
+- Primary dark: `oklch(0.36 0.16 264)`
+- BusinessPress blue: `oklch(0.51 0.23 264)`
+- Line: `oklch(0.88 0.018 264)`
 
-The strategy is full palette with disciplined roles: white owns the canvas, cyan identifies the collection, coral marks decisive actions, and each tool may have one supporting tint.
+The strategy is a committed BusinessPress blue system: white owns the canvas, cobalt marks decisive actions, deep blue identifies the collection, and each tool may retain one supporting screenshot tint.
 
 ## Typography
 
@@ -39,7 +39,7 @@ Use Onest as the single deliberate family, sourced from Google Fonts with a syst
 ## Components
 
 - Wordmark: compact BP monogram plus “BusinessPress Tools”.
-- Primary button: coral fill, near-white text, modest radius, strong focus ring.
+- Primary button: BusinessPress blue fill, near-white text, modest radius, strong focus ring.
 - Secondary text link: ink with animated directional arrow; underline on hover/focus.
 - Product screenshot frame: browser-like chrome, subtle border, restrained shadow, real captured interface.
 - Tool index: numbered navigation with tool name and one-word job cue.
