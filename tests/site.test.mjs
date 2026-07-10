@@ -26,13 +26,28 @@ test('page contains the required semantic structure and metadata', async () => {
   assert.match(html, /<meta name="description" content="[^"]+">/);
   assert.match(html, /<link rel="canonical" href="https:\/\/tools\.businesspress\.io\/">/);
   assert.match(html, /<meta property="og:title" content="[^"]+">/);
-  assert.match(html, /href="assets\/css\/site\.css\?v=5"/);
+  assert.match(html, /href="assets\/css\/site\.css\?v=6"/);
   assert.match(html, /<header\b/);
   assert.match(html, /<nav\b[^>]*aria-label="Primary"/);
   assert.match(html, /<main\b[^>]*id="main-content"/);
   assert.match(html, /<footer\b/);
   assert.match(html, /application\/ld\+json/);
   assert.match(html, /Skip to content/);
+});
+
+test('homepage uses the bold blue second-generation hero', async () => {
+  const [html, css] = await Promise.all([
+    readFile(htmlPath, 'utf8'),
+    readFile(cssPath, 'utf8'),
+  ]);
+
+  assert.match(html, /<section class="hero hero-v2">/);
+  assert.match(html, /<div class="shell hero-inner">/);
+  assert.match(html, /The BusinessPress toolbox/);
+  assert.match(html, /Five tools\.<br><em>Less busywork\.<\/em>/);
+  assert.match(css, /\.hero-v2\s*{[^}]*background:/s);
+  assert.match(css, /\.hero-inner\s*{[^}]*display:\s*grid;/s);
+  assert.doesNotMatch(css, /background-clip:\s*text/);
 });
 
 test('all five tools have exact direct links and local screenshots', async () => {

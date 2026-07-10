@@ -2,7 +2,7 @@
 
 ## Direction
 
-Mood: a precision workshop under electric-blue grid light—calm white surfaces, deep ink structure, and decisive cobalt signals. The direction follows the upcoming BusinessPress brand's dark operational confidence and vivid blue actions, adapted into a brighter catalog-like composition built around real tool screenshots.
+Mood: a precision workshop under electric-blue light—deep ink confidence in the hero, calm white product surfaces, and decisive cobalt signals. The direction follows the upcoming BusinessPress brand's operational confidence and vivid blue actions, using one bold opening field before settling into a bright, catalog-like composition built around real tool screenshots.
 
 ## Color
 
@@ -31,7 +31,7 @@ Use Onest as the single deliberate family, sourced from Google Fonts with a syst
 ## Layout
 
 - Maximum content width: 1240px with fluid side padding.
-- Hero: asymmetric two-column composition with a stacked preview specimen.
+- Hero: full-bleed deep-blue field with an asymmetric two-column composition and stacked preview specimen.
 - Product directory: alternating full-width showcase rows instead of interchangeable cards.
 - Product previews: full uncropped screenshots capped at 620px wide so the interface remains legible without dominating each row.
 - Use generous section spacing and tighter internal groupings.
@@ -40,7 +40,7 @@ Use Onest as the single deliberate family, sourced from Google Fonts with a syst
 ## Components
 
 - Wordmark: compact BP monogram plus “BusinessPress Tools”.
-- Primary button: BusinessPress blue fill, near-white text, modest radius, strong focus ring.
+- Primary button: BusinessPress blue fill on light surfaces and near-white fill on the dark hero, modest radius, strong focus ring.
 - Secondary text link: ink with animated directional arrow; underline on hover/focus.
 - Product screenshot frame: browser-like chrome, subtle border, restrained shadow, real captured interface.
 - Tool index: tool name with a short job category; avoid decorative numbering.
