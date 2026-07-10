@@ -23,8 +23,8 @@ The strategy is a committed BusinessPress blue system: white owns the canvas, co
 
 Use Onest as the single deliberate family, sourced from Google Fonts with a system-sans fallback. Its open forms feel approachable and operational. Use weight and scale—not a second decorative family—to create contrast.
 
-- Display: 700–800, fluid `clamp()`, maximum 84px, tracking no tighter than `-0.035em`
-- Headings: 650–750, balanced wrapping
+- Display: 700–800, fluid `clamp()`, maximum 70px, tracking no tighter than `-0.035em`
+- Headings: 650–750, balanced wrapping, with product headings capped near 41px
 - Body: 400–500, 1.6 line height, maximum 68ch
 - Labels: 650, compact sentence case; avoid repeated tracked uppercase kickers
 
@@ -33,6 +33,7 @@ Use Onest as the single deliberate family, sourced from Google Fonts with a syst
 - Maximum content width: 1240px with fluid side padding.
 - Hero: asymmetric two-column composition with a stacked preview specimen.
 - Product directory: alternating full-width showcase rows instead of interchangeable cards.
+- Product previews: full uncropped screenshots capped at 620px wide so the interface remains legible without dominating each row.
 - Use generous section spacing and tighter internal groupings.
 - On small screens, collapse showcases to a single column and keep the launch action close to the product title.
 
@@ -57,4 +58,4 @@ One coordinated first-load sequence may reveal hero copy and the preview stack. 
 
 ## Imagery
 
-Use current screenshots from the five live BusinessPress tools. Crop them consistently, preserve recognizable UI, compress to WebP, and provide outcome-focused alt text.
+Use current screenshots from the five live BusinessPress tools. Show each full capture without cropping, scale the frame instead of trimming the interface, compress to WebP, and provide outcome-focused alt text.

@@ -22,7 +22,7 @@ test('page contains the required semantic structure and metadata', async () => {
   assert.match(html, /<meta name="description" content="[^"]+">/);
   assert.match(html, /<link rel="canonical" href="https:\/\/tools\.businesspress\.io\/">/);
   assert.match(html, /<meta property="og:title" content="[^"]+">/);
-  assert.match(html, /href="assets\/css\/site\.css\?v=3"/);
+  assert.match(html, /href="assets\/css\/site\.css\?v=4"/);
   assert.match(html, /<header\b/);
   assert.match(html, /<nav\b[^>]*aria-label="Primary"/);
   assert.match(html, /<main\b[^>]*id="main-content"/);
@@ -71,4 +71,13 @@ test('styles include responsive, focus, and reduced-motion behavior', async () =
   assert.match(css, /oklch\(/);
   assert.match(css, /--accent: oklch\(0\.51 0\.23 264\);/);
   assert.doesNotMatch(css, /oklch\([^)]* 35(?:\s|\))/);
+});
+
+test('screenshots remain fully visible and typography uses a restrained scale', async () => {
+  const css = await readFile(cssPath, 'utf8');
+
+  assert.doesNotMatch(css, /object-fit:\s*cover/);
+  assert.match(css, /\.screenshot-wrap img\s*{[^}]*height:\s*auto;[^}]*object-fit:\s*contain;/s);
+  assert.match(css, /h1\s*{[^}]*font-size:\s*clamp\(3rem,\s*5\.4vw,\s*4\.4rem\);/s);
+  assert.match(css, /\.tool-copy h3\s*{[^}]*font-size:\s*clamp\(1\.75rem,\s*2\.6vw,\s*2\.55rem\);/s);
 });
