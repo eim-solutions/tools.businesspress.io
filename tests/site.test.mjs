@@ -22,7 +22,7 @@ test('page contains the required semantic structure and metadata', async () => {
   assert.match(html, /<meta name="description" content="[^"]+">/);
   assert.match(html, /<link rel="canonical" href="https:\/\/tools\.businesspress\.io\/">/);
   assert.match(html, /<meta property="og:title" content="[^"]+">/);
-  assert.match(html, /href="assets\/css\/site\.css\?v=4"/);
+  assert.match(html, /href="assets\/css\/site\.css\?v=5"/);
   assert.match(html, /<header\b/);
   assert.match(html, /<nav\b[^>]*aria-label="Primary"/);
   assert.match(html, /<main\b[^>]*id="main-content"/);
@@ -80,4 +80,28 @@ test('screenshots remain fully visible and typography uses a restrained scale', 
   assert.match(css, /\.screenshot-wrap img\s*{[^}]*height:\s*auto;[^}]*object-fit:\s*contain;/s);
   assert.match(css, /h1\s*{[^}]*font-size:\s*clamp\(3rem,\s*5\.4vw,\s*4\.4rem\);/s);
   assert.match(css, /\.tool-copy h3\s*{[^}]*font-size:\s*clamp\(1\.75rem,\s*2\.6vw,\s*2\.55rem\);/s);
+});
+
+test('polished hierarchy avoids decorative metrics and numbering', async () => {
+  const html = await readFile(htmlPath, 'utf8');
+
+  assert.doesNotMatch(html, /class="tool-count"/);
+  assert.doesNotMatch(html, /\b0[1-5]\s*\/\s*(Documents|Data|Finance|Sharing|Time)/);
+  assert.doesNotMatch(html, /<span>0[1-5]<\/span>\s*(PDF|CSV|VAT|QR|Clock)/);
+  assert.match(html, /class="header-cta" href="#toolbox">Browse tools/);
+});
+
+test('polished interactions use shared motion, touch, and shape tokens', async () => {
+  const css = await readFile(cssPath, 'utf8');
+  const revealRule = css.match(/\.motion-ready \[data-reveal\]\s*{([^}]*)}/s)?.[1] ?? '';
+  const screenshotHoverRule = css.match(/\.screenshot-wrap:hover\s*{([^}]*)}/s)?.[1] ?? '';
+
+  assert.doesNotMatch(css, /^@import/m);
+  assert.match(css, /--radius-lg:\s*16px;/);
+  assert.match(css, /--ease-out-quart:\s*cubic-bezier\(\.25,\s*1,\s*\.5,\s*1\);/);
+  assert.match(css, /\.button:active/);
+  assert.match(css, /\.quick-links a\s*{[^}]*min-height:\s*44px;/s);
+  assert.match(css, /\.footer-links a\s*{[^}]*min-height:\s*44px;/s);
+  assert.doesNotMatch(revealRule, /opacity:\s*0/);
+  assert.doesNotMatch(screenshotHoverRule, /transform:/);
 });

@@ -45,10 +45,12 @@ Use Onest as the single deliberate family, sourced from Google Fonts with a syst
 - Product screenshot frame: browser-like chrome, subtle border, restrained shadow, real captured interface.
 - Tool index: numbered navigation with tool name and one-word job cue.
 - Footer: minimal ownership line and repeated direct tool links.
+- Geometry: compact 10–16px radii and crisp, low-blur shadows; avoid inflated cards and decorative metrics.
+- Navigation: descriptive destinations with 44px minimum touch targets and complete hover, focus, and active states.
 
 ## Motion
 
-One coordinated first-load sequence may reveal hero copy and the preview stack. Product screenshots lift subtly on hover. Disable transforms and reveal delays under `prefers-reduced-motion: reduce`.
+One coordinated first-load sequence may settle hero copy and the preview stack into place without hiding content. Product screenshot frames respond through color and shadow rather than moving the image. Disable transforms and reveal delays under `prefers-reduced-motion: reduce`.
 
 ## Responsive Behavior
 
