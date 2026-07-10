@@ -44,7 +44,7 @@ test('homepage uses the bold blue second-generation hero', async () => {
   assert.match(html, /<section class="hero hero-v2">/);
   assert.match(html, /<div class="shell hero-inner">/);
   assert.match(html, /The BusinessPress toolbox/);
-  assert.match(html, /Five tools\.<br><em>Less busywork\.<\/em>/);
+  assert.match(html, /Privacy first\.<br><em>Everyday tools\.<\/em>/);
   assert.match(css, /\.hero-v2\s*{[^}]*background:/s);
   assert.match(css, /\.hero-inner\s*{[^}]*display:\s*grid;/s);
   assert.doesNotMatch(css, /background-clip:\s*text/);
