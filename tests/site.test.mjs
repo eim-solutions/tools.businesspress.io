@@ -26,7 +26,7 @@ test('page contains the required semantic structure and metadata', async () => {
   assert.match(html, /<meta name="description" content="[^"]+">/);
   assert.match(html, /<link rel="canonical" href="https:\/\/tools\.businesspress\.io\/">/);
   assert.match(html, /<meta property="og:title" content="[^"]+">/);
-  assert.match(html, /href="assets\/css\/site\.css\?v=8"/);
+  assert.match(html, /href="assets\/css\/site\.css\?v=9"/);
   assert.match(html, /<header\b/);
   assert.match(html, /<nav\b[^>]*aria-label="Primary"/);
   assert.match(html, /<main\b[^>]*id="main-content"/);
@@ -50,12 +50,42 @@ test('homepage uses the bold blue second-generation hero', async () => {
   assert.doesNotMatch(css, /background-clip:\s*text/);
 });
 
+test('hero presents a sphere-free five-tool preview deck', async () => {
+  const [html, css] = await Promise.all([
+    readFile(htmlPath, 'utf8'),
+    readFile(cssPath, 'utf8'),
+  ]);
+  const hero = html.match(/<section class="hero hero-v2">[\s\S]*?<\/section>/)?.[0] ?? '';
+  const previewOptions = [...hero.matchAll(/data-tool-preview-option/g)];
+  const heroRule = css.match(/\.hero-v2\s*\{([^}]*)\}/s)?.[1] ?? '';
+
+  assert.match(hero, /data-tool-deck/);
+  assert.match(hero, /data-tool-preview-image/);
+  assert.match(hero, /data-tool-preview-domain/);
+  assert.match(hero, /data-tool-preview-category/);
+  assert.equal(previewOptions.length, 5);
+  assert.equal([...hero.matchAll(/data-preview-src="assets\/screenshots\/(?:pdf|csv|vat|qr|clock)\.webp"/g)].length, 5);
+  assert.equal([...hero.matchAll(/data-preview-alt="[^"]+"/g)].length, 5);
+  assert.equal([...hero.matchAll(/data-preview-domain="(?:pdf|csv|vat|qr|clock)\.businesspress\.io"/g)].length, 5);
+  assert.equal([...hero.matchAll(/data-preview-category="(?:Documents|Data|Finance|Sharing|Time)"/g)].length, 5);
+  assert.match(html, /src="assets\/js\/site\.js\?v=2"/);
+  assert.match(css, /\.tool-deck-option\s*\{[^}]*min-height:\s*44px;/s);
+  assert.match(css, /\.tool-deck-option\.is-active/);
+  assert.match(css, /\.tool-deck-option:focus-visible/);
+  assert.match(css, /@media \(max-width: 639px\)[\s\S]*?\.tool-deck-options\s*\{[^}]*overflow-x:\s*auto;[^}]*scroll-snap-type:\s*x mandatory;/s);
+  assert.doesNotMatch(hero, /\borbit\b|\bpreview-side\b/);
+  assert.doesNotMatch(css, /\.orbit\b|\.preview-side\b/);
+  assert.doesNotMatch(heroRule, /radial-gradient/);
+  assert.doesNotMatch(css, /\.hero-visual::before/);
+  assert.doesNotMatch(css, /\.preview[^,{]*\{[^}]*transform:\s*rotate\(/s);
+});
+
 test('all five tools have exact direct links and local screenshots', async () => {
   const html = await readFile(htmlPath, 'utf8');
 
   for (const [name, url, screenshot] of tools) {
     const trackedHref = `href="${trackedUrl(url).replaceAll('.', '\\.').replaceAll('?', '\\?')}`;
-    assert.equal([...html.matchAll(new RegExp(trackedHref, 'g'))].length, 3);
+    assert.equal([...html.matchAll(new RegExp(trackedHref, 'g'))].length, 4);
     assert.match(html, new RegExp(`src="assets/screenshots/${screenshot.replace('.', '\\.')}`));
     assert.match(html, new RegExp(`alt="[^"]*${name.split(' ')[0]}[^"]*"`, 'i'));
     await access(new URL(`public/assets/screenshots/${screenshot}`, root));
