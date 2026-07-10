@@ -98,8 +98,6 @@ button, a { -webkit-tap-highlight-color: transparent; }
 
 nav { display: flex; align-items: center; gap: 20px; font-weight: 600; font-size: 14px; }
 nav a { min-height: 44px; display: inline-flex; align-items: center; }
-nav > a:not(.header-cta) { color: var(--muted); }
-nav > a:not(.header-cta):hover { color: var(--ink); }
 
 .header-cta {
   display: inline-flex;
@@ -388,12 +386,25 @@ h1 em { color: var(--primary-dark); font-style: normal; }
 
 footer { background: var(--ink); color: var(--white); }
 .footer-grid { min-height: 210px; display: grid; grid-template-columns: 1fr auto; align-content: center; align-items: center; gap: 28px; }
-.brand-footer {
+.powered-by {
   width: fit-content;
-  padding: 11px 14px;
-  border-radius: var(--radius-sm);
+  min-height: 52px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 12px;
   background: var(--white);
+  color: var(--ink);
+  box-shadow: 0 5px 8px oklch(0.08 0 0 / 0.22);
+  transition: transform 180ms var(--ease-out-quart), background-color 180ms var(--ease-out-quart), box-shadow 180ms var(--ease-out-quart);
 }
+.powered-by:hover { transform: translateY(-2px); background: var(--surface); box-shadow: 0 7px 8px oklch(0.08 0 0 / 0.28); }
+.powered-by:active { transform: translateY(0); }
+.powered-label { color: var(--muted); font-size: 10px; font-weight: 700; line-height: 1; white-space: nowrap; }
+.powered-logo { width: 142px; height: auto; }
+.powered-arrow { color: var(--accent); font-weight: 800; transition: transform 180ms var(--ease-out-quart); }
+.powered-by:hover .powered-arrow { transform: translate(2px, -2px); }
 .footer-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 24px; font-weight: 600; }
 .footer-links a { min-height: 44px; display: inline-flex; align-items: center; color: oklch(0.86 0.015 264); }
 .footer-links a:hover { color: var(--primary); }
@@ -430,7 +441,6 @@ footer { background: var(--ink); color: var(--white); }
   .header-inner { min-height: 68px; gap: 12px; }
   .brand-logo { width: 138px; }
   .site-header .brand-product { display: none; }
-  nav > a:not(.header-cta) { display: none; }
   .header-cta { padding: 9px 12px; font-size: 13px; white-space: nowrap; }
   .hero-inner { gap: 42px; padding-block: 68px 104px; }
   h1 { font-size: clamp(2.65rem, 12.8vw, 3.45rem); }

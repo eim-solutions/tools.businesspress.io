@@ -26,7 +26,7 @@ test('page contains the required semantic structure and metadata', async () => {
   assert.match(html, /<meta name="description" content="[^"]+">/);
   assert.match(html, /<link rel="canonical" href="https:\/\/tools\.businesspress\.io\/">/);
   assert.match(html, /<meta property="og:title" content="[^"]+">/);
-  assert.match(html, /href="assets\/css\/site\.css\?v=7"/);
+  assert.match(html, /href="assets\/css\/site\.css\?v=8"/);
   assert.match(html, /<header\b/);
   assert.match(html, /<nav\b[^>]*aria-label="Primary"/);
   assert.match(html, /<main\b[^>]*id="main-content"/);
@@ -116,11 +116,22 @@ test('analytics and search discovery assets are configured', async () => {
 });
 
 test('header and footer use the locally stored official BusinessPress logo', async () => {
-  const html = await readFile(htmlPath, 'utf8');
+  const [html, css] = await Promise.all([
+    readFile(htmlPath, 'utf8'),
+    readFile(cssPath, 'utf8'),
+  ]);
   const logoReferences = [...html.matchAll(/src="assets\/brand\/businesspress-logo\.png"/g)];
+  const header = html.match(/<header\b[\s\S]*?<\/header>/)?.[0] ?? '';
+  const footer = html.match(/<footer\b[\s\S]*?<\/footer>/)?.[0] ?? '';
 
   assert.equal(logoReferences.length, 2);
   assert.doesNotMatch(html, /class="brand-mark"/);
+  assert.doesNotMatch(header, /href="https:\/\/businesspress\.io\//);
+  assert.match(header, /class="header-cta" href="#toolbox"/);
+  assert.match(footer, new RegExp(`class="powered-by" href="${trackedUrl('https://businesspress.io/').replaceAll('.', '\\.').replaceAll('?', '\\?')}`));
+  assert.match(footer, /target="_blank" rel="noopener noreferrer" aria-label="Powered by BusinessPress, opens in a new tab"/);
+  assert.match(footer, /class="powered-label">Powered by<\/span>/);
+  assert.match(css, /\.powered-by\s*{[^}]*min-height:\s*52px;[^}]*background:\s*var\(--white\);/s);
   await access(logoPath);
 });
 
