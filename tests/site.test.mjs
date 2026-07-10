@@ -5,6 +5,7 @@ import { test } from 'node:test';
 const root = new URL('../', import.meta.url);
 const htmlPath = new URL('public/index.html', root);
 const cssPath = new URL('public/assets/css/site.css', root);
+const logoPath = new URL('public/assets/brand/businesspress-logo.png', root);
 
 const tools = [
   ['PDF tools', 'https://pdf.businesspress.io/', 'pdf.webp'],
@@ -21,7 +22,7 @@ test('page contains the required semantic structure and metadata', async () => {
   assert.match(html, /<meta name="description" content="[^"]+">/);
   assert.match(html, /<link rel="canonical" href="https:\/\/tools\.businesspress\.io\/">/);
   assert.match(html, /<meta property="og:title" content="[^"]+">/);
-  assert.match(html, /href="assets\/css\/site\.css\?v=2"/);
+  assert.match(html, /href="assets\/css\/site\.css\?v=3"/);
   assert.match(html, /<header\b/);
   assert.match(html, /<nav\b[^>]*aria-label="Primary"/);
   assert.match(html, /<main\b[^>]*id="main-content"/);
@@ -49,6 +50,15 @@ test('interactive and image elements include accessibility affordances', async (
   assert.match(html, /width="1470" height="775"/);
   assert.match(html, /loading="lazy"/);
   assert.match(html, /<noscript>/);
+});
+
+test('header and footer use the locally stored official BusinessPress logo', async () => {
+  const html = await readFile(htmlPath, 'utf8');
+  const logoReferences = [...html.matchAll(/src="assets\/brand\/businesspress-logo\.png"/g)];
+
+  assert.equal(logoReferences.length, 2);
+  assert.doesNotMatch(html, /class="brand-mark"/);
+  await access(logoPath);
 });
 
 test('styles include responsive, focus, and reduced-motion behavior', async () => {

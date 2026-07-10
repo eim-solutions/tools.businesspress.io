@@ -81,35 +81,16 @@ button, a { -webkit-tap-highlight-color: transparent; }
   gap: 28px;
 }
 
-.brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 600; }
-.brand-name strong { color: var(--primary-dark); }
-
-.brand-mark {
-  width: 38px;
-  height: 30px;
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--ink);
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: -0.04em;
+.brand { display: inline-flex; align-items: center; gap: 11px; font-weight: 600; }
+.brand-logo { width: 170px; height: auto; flex: 0 0 auto; }
+.brand-product {
+  padding-left: 11px;
+  border-left: 1px solid var(--line);
+  color: var(--primary-dark);
+  font-size: 14px;
+  font-weight: 750;
+  line-height: 1;
 }
-
-.brand-mark::before,
-.brand-mark::after {
-  content: '';
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  border: 2px solid currentColor;
-  border-radius: 7px;
-}
-
-.brand-mark::before { left: 0; top: 0; }
-.brand-mark::after { right: 0; bottom: 0; border-color: var(--primary); }
-.brand-mark span { position: relative; z-index: 1; margin-inline: 1px; }
 
 nav { display: flex; align-items: center; gap: 28px; font-weight: 600; font-size: 14px; }
 nav > a:not(.header-cta) { color: var(--muted); }
@@ -361,7 +342,12 @@ h1 em { color: var(--primary-dark); font-style: normal; }
 
 footer { background: var(--ink); color: var(--white); }
 .footer-grid { min-height: 210px; display: grid; grid-template-columns: 1fr auto; align-content: center; align-items: center; gap: 28px; }
-.brand-footer .brand-name strong { color: var(--primary); }
+.brand-footer {
+  width: fit-content;
+  padding: 11px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--white);
+}
 .footer-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 24px; font-weight: 600; }
 .footer-links a { color: oklch(0.86 0.015 264); }
 .footer-links a:hover { color: var(--primary); }
@@ -395,7 +381,8 @@ footer { background: var(--ink); color: var(--white); }
 @media (max-width: 639px) {
   :root { --shell: calc(100% - 40px); --radius-lg: 20px; }
   .header-inner { min-height: 68px; }
-  .brand-name { font-size: 14px; }
+  .brand-logo { width: 138px; }
+  .site-header .brand-product { display: none; }
   nav > a:not(.header-cta) { display: none; }
   .header-cta { padding: 9px 12px; font-size: 12px; }
   .hero { gap: 42px; padding-block: 68px 104px; }
