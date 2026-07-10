@@ -5,6 +5,7 @@ import { test } from 'node:test';
 const root = new URL('../', import.meta.url);
 const htmlPath = new URL('public/index.html', root);
 const cssPath = new URL('public/assets/css/site.css', root);
+const jsPath = new URL('public/assets/js/site.js', root);
 const logoPath = new URL('public/assets/brand/businesspress-logo.png', root);
 const robotsPath = new URL('public/robots.txt', root);
 const sitemapPath = new URL('public/sitemap.xml', root);
@@ -80,6 +81,20 @@ test('hero presents a sphere-free five-tool preview deck', async () => {
   assert.doesNotMatch(css, /\.hero-visual::before/);
   assert.doesNotMatch(css, /\.preview[^,{]*\{[^}]*transform:\s*rotate\(/s);
   assert.doesNotMatch(heroVisualTag, /data-reveal/);
+});
+
+test('hero tool deck switches its preview on pointer entry and keyboard focus', async () => {
+  const js = await readFile(jsPath, 'utf8');
+
+  assert.match(js, /querySelector\('\[data-tool-deck\]'\)/);
+  assert.match(js, /function activateToolPreview\(option\)/);
+  assert.match(js, /option\.classList\.add\('is-active'\)/);
+  assert.match(js, /previewImage\.src = option\.dataset\.previewSrc/);
+  assert.match(js, /previewImage\.alt = option\.dataset\.previewAlt/);
+  assert.match(js, /previewDomain\.textContent = option\.dataset\.previewDomain/);
+  assert.match(js, /previewCategory\.textContent = option\.dataset\.previewCategory/);
+  assert.match(js, /addEventListener\('pointerenter', \(\) => activateToolPreview\(option\)\)/);
+  assert.match(js, /addEventListener\('focus', \(\) => activateToolPreview\(option\)\)/);
 });
 
 test('all five tools have exact direct links and local screenshots', async () => {
