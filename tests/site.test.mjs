@@ -58,6 +58,7 @@ test('hero presents a sphere-free five-tool preview deck', async () => {
   const hero = html.match(/<section class="hero hero-v2">[\s\S]*?<\/section>/)?.[0] ?? '';
   const previewOptions = [...hero.matchAll(/data-tool-preview-option/g)];
   const heroRule = css.match(/\.hero-v2\s*\{([^}]*)\}/s)?.[1] ?? '';
+  const heroVisualTag = hero.match(/<div class="hero-visual"[^>]*>/)?.[0] ?? '';
 
   assert.match(hero, /data-tool-deck/);
   assert.match(hero, /data-tool-preview-image/);
@@ -78,6 +79,7 @@ test('hero presents a sphere-free five-tool preview deck', async () => {
   assert.doesNotMatch(heroRule, /radial-gradient/);
   assert.doesNotMatch(css, /\.hero-visual::before/);
   assert.doesNotMatch(css, /\.preview[^,{]*\{[^}]*transform:\s*rotate\(/s);
+  assert.doesNotMatch(heroVisualTag, /data-reveal/);
 });
 
 test('all five tools have exact direct links and local screenshots', async () => {
