@@ -102,6 +102,15 @@ test('toolbox starts directly with the tools without a redundant introduction', 
   assert.match(css, /\.toolbox\s*{[^}]*padding-block:\s*clamp\(32px,\s*4vw,\s*56px\)\s+clamp\(92px,\s*11vw,\s*148px\);/s);
 });
 
+test('closing section ends with a direct outcome instead of repeating the tool count', async () => {
+  const html = await readFile(htmlPath, 'utf8');
+
+  assert.match(html, /Keep work moving/);
+  assert.match(html, /Open a tool\.<br>Finish the task\. Move on\./);
+  assert.doesNotMatch(html, /Ready when work gets fiddly/);
+  assert.doesNotMatch(html, /One bookmark\.<br>Five practical tools\./);
+});
+
 test('analytics and search discovery assets are configured', async () => {
   const [html, robots, sitemap] = await Promise.all([
     readFile(htmlPath, 'utf8'),

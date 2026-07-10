@@ -28,4 +28,4 @@ Pageviews are recorded through `https://stats.businesspress.io/js/script.js` for
 
 ## Deployment
 
-The repository is a static site. Point the web server root to `/public`; no build command or runtime process is required.
+The repository is a static site. Point the web server root to `/public`; no build command or runtime process is required. The verified Forge, Cloudflare, GitHub, DNS, and TLS workflow is documented in [the BusinessPress deployment runbook](docs/businesspress-deployment.md).
