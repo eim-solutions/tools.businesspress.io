@@ -26,7 +26,7 @@ test('page contains the required semantic structure and metadata', async () => {
   assert.match(html, /<meta name="description" content="[^"]+">/);
   assert.match(html, /<link rel="canonical" href="https:\/\/tools\.businesspress\.io\/">/);
   assert.match(html, /<meta property="og:title" content="[^"]+">/);
-  assert.match(html, /href="assets\/css\/site\.css\?v=6"/);
+  assert.match(html, /href="assets\/css\/site\.css\?v=7"/);
   assert.match(html, /<header\b/);
   assert.match(html, /<nav\b[^>]*aria-label="Primary"/);
   assert.match(html, /<main\b[^>]*id="main-content"/);
@@ -82,12 +82,24 @@ test('copy names concrete tasks and uses consistent actions', async () => {
   const html = await readFile(htmlPath, 'utf8');
 
   assert.match(html, /Check a PDF, validate a CSV, calculate EU VAT, create a QR code, or keep time/);
-  assert.match(html, /Five tools for the tasks that should take seconds\./);
   assert.match(html, /Check a PDF before you rely on it\./);
   assert.match(html, /Find CSV issues before they reach your workflow\./);
   assert.match(html, /Calculate EU VAT with the right country rate\./);
   assert.match(html, /Create a QR code for anything you need to share\./);
   assert.match(html, /Keep time without the clutter\./);
+});
+
+test('toolbox starts directly with the tools without a redundant introduction', async () => {
+  const [html, css] = await Promise.all([
+    readFile(htmlPath, 'utf8'),
+    readFile(cssPath, 'utf8'),
+  ]);
+
+  assert.match(html, /<section class="toolbox shell" id="toolbox" aria-label="BusinessPress tools">/);
+  assert.doesNotMatch(html, /Choose the task/);
+  assert.doesNotMatch(html, /Five tools for the tasks that should take seconds\./);
+  assert.doesNotMatch(html, /class="section-heading"/);
+  assert.match(css, /\.toolbox\s*{[^}]*padding-block:\s*clamp\(32px,\s*4vw,\s*56px\)\s+clamp\(92px,\s*11vw,\s*148px\);/s);
 });
 
 test('analytics and search discovery assets are configured', async () => {
