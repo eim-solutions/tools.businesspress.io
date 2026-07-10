@@ -6,6 +6,10 @@ const root = new URL('../', import.meta.url);
 const htmlPath = new URL('public/index.html', root);
 const cssPath = new URL('public/assets/css/site.css', root);
 const logoPath = new URL('public/assets/brand/businesspress-logo.png', root);
+const robotsPath = new URL('public/robots.txt', root);
+const sitemapPath = new URL('public/sitemap.xml', root);
+const trackingQuery = 'utm_source=tools.businesspress.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub';
+const trackedUrl = (url) => `${url}?${trackingQuery}`;
 
 const tools = [
   ['PDF tools', 'https://pdf.businesspress.io/', 'pdf.webp'],
@@ -18,7 +22,7 @@ const tools = [
 test('page contains the required semantic structure and metadata', async () => {
   const html = await readFile(htmlPath, 'utf8');
 
-  assert.match(html, /<title>BusinessPress Tools — Practical tools for everyday work<\/title>/);
+  assert.match(html, /<title>BusinessPress Tools — PDF, CSV, VAT, QR &amp; Clock<\/title>/);
   assert.match(html, /<meta name="description" content="[^"]+">/);
   assert.match(html, /<link rel="canonical" href="https:\/\/tools\.businesspress\.io\/">/);
   assert.match(html, /<meta property="og:title" content="[^"]+">/);
@@ -35,7 +39,8 @@ test('all five tools have exact direct links and local screenshots', async () =>
   const html = await readFile(htmlPath, 'utf8');
 
   for (const [name, url, screenshot] of tools) {
-    assert.match(html, new RegExp(`href="${url.replaceAll('.', '\\.')}`));
+    const trackedHref = `href="${trackedUrl(url).replaceAll('.', '\\.').replaceAll('?', '\\?')}`;
+    assert.equal([...html.matchAll(new RegExp(trackedHref, 'g'))].length, 3);
     assert.match(html, new RegExp(`src="assets/screenshots/${screenshot.replace('.', '\\.')}`));
     assert.match(html, new RegExp(`alt="[^"]*${name.split(' ')[0]}[^"]*"`, 'i'));
     await access(new URL(`public/assets/screenshots/${screenshot}`, root));
@@ -44,12 +49,43 @@ test('all five tools have exact direct links and local screenshots', async () =>
 
 test('interactive and image elements include accessibility affordances', async () => {
   const html = await readFile(htmlPath, 'utf8');
+  const externalLinks = [...html.matchAll(/<a\b[^>]*href="https:\/\/[^"#]+"[^>]*>/g)].map((match) => match[0]);
 
-  assert.doesNotMatch(html, /target="_blank"/);
+  assert.ok(externalLinks.length >= 17);
+  for (const link of externalLinks) {
+    assert.match(link, /target="_blank"/);
+    assert.match(link, /rel="noopener noreferrer"/);
+    assert.match(link, /utm_source=tools\.businesspress\.io/);
+  }
   assert.match(html, /aria-label="BusinessPress Tools home"/);
   assert.match(html, /width="1470" height="775"/);
   assert.match(html, /loading="lazy"/);
   assert.match(html, /<noscript>/);
+});
+
+test('copy names concrete tasks and uses consistent actions', async () => {
+  const html = await readFile(htmlPath, 'utf8');
+
+  assert.match(html, /Check a PDF, validate a CSV, calculate EU VAT, create a QR code, or keep time/);
+  assert.match(html, /Five tools for the tasks that should take seconds\./);
+  assert.match(html, /Check a PDF before you rely on it\./);
+  assert.match(html, /Find CSV issues before they reach your workflow\./);
+  assert.match(html, /Calculate EU VAT with the right country rate\./);
+  assert.match(html, /Create a QR code for anything you need to share\./);
+  assert.match(html, /Keep time without the clutter\./);
+});
+
+test('analytics and search discovery assets are configured', async () => {
+  const [html, robots, sitemap] = await Promise.all([
+    readFile(htmlPath, 'utf8'),
+    readFile(robotsPath, 'utf8'),
+    readFile(sitemapPath, 'utf8'),
+  ]);
+
+  assert.match(html, /<script defer data-domain="tools\.businesspress\.io" src="https:\/\/stats\.businesspress\.io\/js\/script\.js"><\/script>/);
+  assert.match(robots, /Sitemap: https:\/\/tools\.businesspress\.io\/sitemap\.xml/);
+  assert.match(sitemap, /<loc>https:\/\/tools\.businesspress\.io\/<\/loc>/);
+  assert.match(sitemap, /<lastmod>2026-07-11<\/lastmod>/);
 });
 
 test('header and footer use the locally stored official BusinessPress logo', async () => {

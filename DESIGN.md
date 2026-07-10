@@ -43,7 +43,7 @@ Use Onest as the single deliberate family, sourced from Google Fonts with a syst
 - Primary button: BusinessPress blue fill, near-white text, modest radius, strong focus ring.
 - Secondary text link: ink with animated directional arrow; underline on hover/focus.
 - Product screenshot frame: browser-like chrome, subtle border, restrained shadow, real captured interface.
-- Tool index: numbered navigation with tool name and one-word job cue.
+- Tool index: tool name with a short job category; avoid decorative numbering.
 - Footer: minimal ownership line and repeated direct tool links.
 - Geometry: compact 10–16px radii and crisp, low-blur shadows; avoid inflated cards and decorative metrics.
 - Navigation: descriptive destinations with 44px minimum touch targets and complete hover, focus, and active states.
@@ -61,3 +61,7 @@ One coordinated first-load sequence may settle hero copy and the preview stack i
 ## Imagery
 
 Use current screenshots from the five live BusinessPress tools. Show each full capture without cropping, scale the frame instead of trimming the interface, compress to WebP, and provide outcome-focused alt text.
+
+## Copy
+
+Name the task and the outcome in plain language. Prefer concrete verbs such as check, validate, calculate, create, and open. Keep action labels consistent, avoid describing the interface itself, and make external destinations clear through standalone link text.
