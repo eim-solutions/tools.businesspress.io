@@ -8,39 +8,39 @@
 - Secondary Goals: Discover other tools, visit BusinessPress, build trust in the collection
 - Desired Visitor Emotion: Immediate confidence and relief
 - Key Competitors: Single-purpose web utilities, browser tool directories, ad-heavy converter sites
-- Weakest Link in Conversion Path: The hero tool deck is followed by a second chooser, repeating the same decision before visitors reach useful detail
+- Weakest Link in Conversion Path: The page now drives direct tool opens, but it has no mature behavior baseline yet for deciding whether the hero selector or detailed rows do more conversion work
 
 ## Iteration Status
 
-- Current Iteration: 2 (ready for review)
+- Current Iteration: 3 (ready for review)
 - Last Review Date: 2026-07-11
-- Overall Health Score: 93/120
-- Primary Focus: Visual Design
-- Secondary Focus: Content
-- Perspective Lens: Skeptical buyer
+- Overall Health Score: 99/120
+- Primary Focus: Content
+- Secondary Focus: Conversion
+- Perspective Lens: Returning visitor
 - Mode: REFINE
 
 ## Score Breakdown
 
 | Dimension | Score | Previous | Delta |
 |---|---:|---:|---:|
-| Conversion | 16/20 | 15/20 | +1 |
-| Visual Design | 16/20 | 16/20 | 0 |
-| Content | 14/20 | 14/20 | 0 |
-| SEO | 15/20 | 15/20 | 0 |
-| Usability | 17/20 | 16/20 | +1 |
-| Performance | 15/20 | 13/20 | +2 |
+| Conversion | 17/20 | 16/20 | +1 |
+| Visual Design | 17/20 | 16/20 | +1 |
+| Content | 16/20 | 14/20 | +2 |
+| SEO | 16/20 | 15/20 | +1 |
+| Usability | 18/20 | 17/20 | +1 |
+| Performance | 15/20 | 15/20 | 0 |
 
 ## Current Batch
 
-No active batch. Iteration 1 is complete; choose Iteration 2 after reviewing live behavior and analytics.
+No active batch. Iteration 2 is complete; collect enough `Tool Open` events before changing the selector based on behavior.
 
 ## Backlog
 
 ### High Impact
 
-- [ ] TASK-004 | Content | Verify and present specific privacy assurances shared by all five tools | Biz: 5 | User: 4 | Effort: 3 | Priority: 27
-- [ ] TASK-005 | Conversion | Measure hero-selector clicks by tool and compare with detailed-section clicks | Biz: 5 | User: 3 | Effort: 3 | Priority: 24
+- [ ] TASK-010 | Conversion | Review `Tool Open` results by tool, location, and element after a useful sample accumulates | Biz: 5 | User: 3 | Effort: 2 | Priority: 32
+- [ ] TASK-011 | Content | Verify each tool’s strongest differentiated outcome and tighten its description around task completion | Biz: 4 | User: 4 | Effort: 3 | Priority: 24
 
 ### Quick Wins
 
@@ -48,7 +48,7 @@ No active batch. Iteration 1 is complete; choose Iteration 2 after reviewing liv
 
 ### Strategic
 
-- [ ] TASK-007 | Conversion | Test whether task-led labels outperform format-led labels in the hero selector | Biz: 4 | User: 4 | Effort: 4 | Priority: 16
+- [ ] TASK-007 | Conversion | Test whether task-led labels outperform format-led labels in the hero selector after a baseline exists | Biz: 4 | User: 4 | Effort: 4 | Priority: 16
 
 ### Deferred
 

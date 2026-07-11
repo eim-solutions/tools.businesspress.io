@@ -29,7 +29,7 @@ test('page contains the required semantic structure and metadata', async () => {
   assert.match(html, /<meta name="description" content="[^"]+">/);
   assert.match(html, /<link rel="canonical" href="https:\/\/tools\.businesspress\.io\/">/);
   assert.match(html, /<meta property="og:title" content="[^"]+">/);
-  assert.match(html, /href="assets\/css\/site\.css\?v=10"/);
+  assert.match(html, /href="assets\/css\/site\.css\?v=11"/);
   assert.match(html, /<header\b/);
   assert.match(html, /<nav\b[^>]*aria-label="Primary"/);
   assert.match(html, /<main\b[^>]*id="main-content"/);
@@ -72,7 +72,7 @@ test('hero presents a sphere-free five-tool preview deck', async () => {
   assert.equal([...hero.matchAll(/data-preview-alt="[^"]+"/g)].length, 5);
   assert.equal([...hero.matchAll(/data-preview-domain="(?:pdf|csv|vat|qr|clock)\.businesspress\.io"/g)].length, 5);
   assert.equal([...hero.matchAll(/data-preview-category="(?:Documents|Data|Finance|Sharing|Time)"/g)].length, 5);
-  assert.match(html, /src="assets\/js\/site\.js\?v=2"/);
+  assert.match(html, /src="assets\/js\/site\.js\?v=3"/);
   assert.match(css, /\.tool-deck-option\s*\{[^}]*min-height:\s*44px;/s);
   assert.match(css, /\.tool-deck-option\.is-active/);
   assert.match(css, /\.tool-deck-option:focus-visible/);
@@ -110,6 +110,52 @@ test('first conversion path avoids a duplicate chooser and makes tool actions ex
   assert.equal([...html.matchAll(/class="tool-deck-option(?: is-active)?"/g)].length, 5);
   assert.equal([...html.matchAll(/aria-label="Open [^"]+ in a new tab"/g)].length, 5);
   assert.equal([...html.matchAll(/<small>Open ↗<\/small>/g)].length, 5);
+});
+
+test('hero answers common trust objections with verified, specific assurances', async () => {
+  const [html, css] = await Promise.all([
+    readFile(htmlPath, 'utf8'),
+    readFile(cssPath, 'utf8'),
+  ]);
+
+  assert.match(html, /<ul class="hero-assurances" aria-label="Tool assurances">/);
+  assert.match(html, /<li>Free to use<\/li>/);
+  assert.match(html, /<li>No account needed<\/li>/);
+  assert.match(html, /<li>PDF &amp; CSV files aren’t stored<\/li>/);
+  assert.match(css, /\.hero-assurances\s*\{[^}]*display:\s*flex;[^}]*list-style:\s*none;/s);
+  assert.match(css, /\.hero-assurances li::before\s*\{[^}]*content:\s*'✓';/s);
+});
+
+test('tool opens are measured by tool, page location, and link type', async () => {
+  const [html, js] = await Promise.all([
+    readFile(htmlPath, 'utf8'),
+    readFile(jsPath, 'utf8'),
+  ]);
+
+  assert.equal([...html.matchAll(/data-track-tool-open/g)].length, 20);
+  for (const tool of ['pdf', 'csv', 'vat', 'qr', 'clock']) {
+    assert.equal([...html.matchAll(new RegExp(`data-track-tool="${tool}"`, 'g'))].length, 4);
+  }
+  assert.equal([...html.matchAll(/data-track-location="hero"/g)].length, 5);
+  assert.equal([...html.matchAll(/data-track-location="details"/g)].length, 10);
+  assert.equal([...html.matchAll(/data-track-location="footer"/g)].length, 5);
+  assert.equal([...html.matchAll(/data-track-element="tile"/g)].length, 5);
+  assert.equal([...html.matchAll(/data-track-element="button"/g)].length, 5);
+  assert.equal([...html.matchAll(/data-track-element="screenshot"/g)].length, 5);
+  assert.equal([...html.matchAll(/data-track-element="text-link"/g)].length, 5);
+  assert.match(js, /querySelectorAll\('\[data-track-tool-open\]'\)/);
+  assert.match(js, /window\.plausible\('Tool Open',/);
+  assert.match(js, /tool:\s*link\.dataset\.trackTool/);
+  assert.match(js, /location:\s*link\.dataset\.trackLocation/);
+  assert.match(js, /element:\s*link\.dataset\.trackElement/);
+});
+
+test('each directory entry is a top-level section in the heading outline', async () => {
+  const html = await readFile(htmlPath, 'utf8');
+  const toolbox = html.match(/<section class="toolbox shell"[\s\S]*?<\/section>/)?.[0] ?? '';
+
+  assert.equal([...toolbox.matchAll(/<h2>/g)].length, 5);
+  assert.doesNotMatch(toolbox, /<h3>/);
 });
 
 test('Onest is self-hosted without Google Fonts requests', async () => {
@@ -237,7 +283,7 @@ test('screenshots remain fully visible and typography uses a restrained scale', 
   assert.doesNotMatch(css, /object-fit:\s*cover/);
   assert.match(css, /\.screenshot-wrap img\s*{[^}]*height:\s*auto;[^}]*object-fit:\s*contain;/s);
   assert.match(css, /h1\s*{[^}]*font-size:\s*clamp\(3rem,\s*5\.4vw,\s*4\.4rem\);/s);
-  assert.match(css, /\.tool-copy h3\s*{[^}]*font-size:\s*clamp\(1\.75rem,\s*2\.6vw,\s*2\.55rem\);/s);
+  assert.match(css, /\.tool-copy h2\s*{[^}]*font-size:\s*clamp\(1\.75rem,\s*2\.6vw,\s*2\.55rem\);/s);
 });
 
 test('polished hierarchy avoids decorative metrics and numbering', async () => {

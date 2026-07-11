@@ -25,6 +25,24 @@ if (toolDeck) {
   });
 }
 
+const toolOpenLinks = document.querySelectorAll('[data-track-tool-open]');
+
+toolOpenLinks.forEach((link) => {
+  link.addEventListener('click', () => {
+    window.plausible = window.plausible || function plausible() {
+      (window.plausible.q = window.plausible.q || []).push(arguments);
+    };
+
+    window.plausible('Tool Open', {
+      props: {
+        tool: link.dataset.trackTool,
+        location: link.dataset.trackLocation,
+        element: link.dataset.trackElement,
+      },
+    });
+  });
+});
+
 const reveals = document.querySelectorAll('[data-reveal]');
 
 if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
