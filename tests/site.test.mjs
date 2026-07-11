@@ -29,7 +29,7 @@ test('page contains the required semantic structure and metadata', async () => {
   assert.match(html, /<meta name="description" content="[^"]+">/);
   assert.match(html, /<link rel="canonical" href="https:\/\/tools\.businesspress\.io\/">/);
   assert.match(html, /<meta property="og:title" content="[^"]+">/);
-  assert.match(html, /href="assets\/css\/site\.css\?v=11"/);
+  assert.match(html, /href="assets\/css\/site\.css\?v=12"/);
   assert.match(html, /<header\b/);
   assert.match(html, /<nav\b[^>]*aria-label="Primary"/);
   assert.match(html, /<main\b[^>]*id="main-content"/);
@@ -223,11 +223,19 @@ test('toolbox starts directly with the tools without a redundant introduction', 
   assert.match(css, /\.toolbox\s*{[^}]*padding-block:\s*clamp\(32px,\s*4vw,\s*56px\)\s+clamp\(92px,\s*11vw,\s*148px\);/s);
 });
 
-test('closing section ends with a direct outcome instead of repeating the tool count', async () => {
-  const html = await readFile(htmlPath, 'utf8');
+test('closing section invites visitors to create with the BusinessPress platform', async () => {
+  const [html, css] = await Promise.all([
+    readFile(htmlPath, 'utf8'),
+    readFile(cssPath, 'utf8'),
+  ]);
 
-  assert.match(html, /Keep work moving/);
-  assert.match(html, /Open a tool\.<br>Finish the task\. Move on\./);
+  assert.match(html, /Create with BusinessPress/);
+  assert.match(html, /Build what your business needs next\./);
+  assert.match(html, /Explore the BusinessPress platform to turn your ideas and workflows into tools and websites of your own\./);
+  assert.match(html, /class="button button-primary" href="https:\/\/businesspress\.io\/\?utm_source=tools\.businesspress\.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub" target="_blank" rel="noopener noreferrer">Explore BusinessPress/);
+  assert.match(css, /\.closing-intro\s*{[^}]*max-width:\s*58ch;/s);
+  assert.doesNotMatch(html, /Keep work moving/);
+  assert.doesNotMatch(html, /Open a tool\.<br>Finish the task\. Move on\./);
   assert.doesNotMatch(html, /Ready when work gets fiddly/);
   assert.doesNotMatch(html, /One bookmark\.<br>Five practical tools\./);
 });

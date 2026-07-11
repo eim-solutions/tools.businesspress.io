@@ -438,7 +438,9 @@ h1 em { color: var(--primary-dark); font-style: normal; }
   padding-block: clamp(90px, 12vw, 150px);
 }
 
-.closing p { margin: 0 0 18px; color: var(--accent); font-size: 13px; font-weight: 800; }
+.closing-copy { max-width: 760px; }
+.closing-kicker { margin: 0 0 18px; color: var(--accent); font-size: 13px; font-weight: 800; }
+.closing-intro { max-width: 58ch; margin: 24px 0 0; color: var(--muted); font-size: 17px; line-height: 1.65; }
 
 footer { background: var(--ink); color: var(--white); }
 .footer-grid { min-height: 210px; display: grid; grid-template-columns: 1fr auto; align-content: center; align-items: center; gap: 28px; }
