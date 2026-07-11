@@ -8,6 +8,8 @@ const cssPath = new URL('public/assets/css/site.css', root);
 const jsPath = new URL('public/assets/js/site.js', root);
 const logoPath = new URL('public/assets/brand/businesspress-logo.png', root);
 const chromeBadgePath = new URL('public/assets/extensions/chrome-web-store-badge.png', root);
+const laravelLogoPath = new URL('public/assets/technology/laravel.svg', root);
+const tailwindLogoPath = new URL('public/assets/technology/tailwindcss.svg', root);
 const robotsPath = new URL('public/robots.txt', root);
 const sitemapPath = new URL('public/sitemap.xml', root);
 const trackingQuery = 'utm_source=tools.businesspress.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub';
@@ -28,7 +30,7 @@ test('page contains the required semantic structure and metadata', async () => {
   assert.match(html, /<meta name="description" content="[^"]+">/);
   assert.match(html, /<link rel="canonical" href="https:\/\/tools\.businesspress\.io\/">/);
   assert.match(html, /<meta property="og:title" content="[^"]+">/);
-  assert.match(html, /href="assets\/css\/site\.css\?v=14"/);
+  assert.match(html, /href="assets\/css\/site\.css\?v=15"/);
   assert.match(html, /<header\b/);
   assert.match(html, /<nav\b[^>]*aria-label="Primary"/);
   assert.match(html, /<main\b[^>]*id="main-content"/);
@@ -247,7 +249,7 @@ test('toolbox starts directly with the tools without a redundant introduction', 
   assert.doesNotMatch(html, /Choose the task/);
   assert.doesNotMatch(html, /Five tools for the tasks that should take seconds\./);
   assert.doesNotMatch(html, /class="section-heading"/);
-  assert.match(css, /\.toolbox\s*{[^}]*padding-block:\s*clamp\(32px,\s*4vw,\s*56px\)\s+clamp\(92px,\s*11vw,\s*148px\);/s);
+  assert.match(css, /\.toolbox\s*{[^}]*padding-block:\s*clamp\(32px,\s*4vw,\s*56px\)\s+0;/s);
 });
 
 test('closing section invites visitors to create with the BusinessPress platform', async () => {
@@ -258,9 +260,17 @@ test('closing section invites visitors to create with the BusinessPress platform
 
   assert.match(html, /Create with BusinessPress/);
   assert.match(html, /Build what your business needs next\./);
-  assert.match(html, /Explore the BusinessPress platform to turn your ideas and workflows into tools and websites of your own\./);
-  assert.match(html, /class="button button-primary" href="https:\/\/businesspress\.io\/\?utm_source=tools\.businesspress\.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub" target="_blank" rel="noopener noreferrer">Explore BusinessPress/);
+  assert.match(html, /Turn your ideas and workflows into tools and websites of your own\./);
+  assert.match(html, /<section class="closing-section">/);
+  assert.match(html, /<ul class="closing-outcomes" aria-label="What you can create">/);
+  assert.match(html, /<li>Custom tools<\/li>/);
+  assert.match(html, /<li>Business websites<\/li>/);
+  assert.match(html, /<li>Built around your workflow<\/li>/);
+  assert.match(html, /class="button button-light" href="https:\/\/businesspress\.io\/\?utm_source=tools\.businesspress\.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub" target="_blank" rel="noopener noreferrer">Explore BusinessPress/);
+  assert.match(css, /\.closing-section\s*{[^}]*background:\s*linear-gradient\(/s);
+  assert.match(css, /\.closing\s*{[^}]*display:\s*grid;[^}]*grid-template-columns:/s);
   assert.match(css, /\.closing-intro\s*{[^}]*max-width:\s*58ch;/s);
+  assert.match(css, /\.closing-action\s*{[^}]*border-left:\s*1px solid/s);
   assert.doesNotMatch(html, /Keep work moving/);
   assert.doesNotMatch(html, /Open a tool\.<br>Finish the task\. Move on\./);
   assert.doesNotMatch(html, /Ready when work gets fiddly/);
@@ -298,6 +308,23 @@ test('header and footer use the locally stored official BusinessPress logo', asy
   assert.match(footer, /class="powered-label">Powered by<\/span>/);
   assert.match(css, /\.powered-by\s*{[^}]*min-height:\s*52px;[^}]*background:\s*var\(--white\);/s);
   await access(logoPath);
+});
+
+test('footer credits Laravel and Tailwind CSS with local official logos', async () => {
+  const [html, css] = await Promise.all([
+    readFile(htmlPath, 'utf8'),
+    readFile(cssPath, 'utf8'),
+  ]);
+  const footer = html.match(/<footer\b[\s\S]*?<\/footer>/)?.[0] ?? '';
+
+  assert.match(footer, /class="footer-technology" aria-label="Powered by Laravel and Tailwind CSS"/);
+  assert.match(footer, /src="assets\/technology\/laravel\.svg" width="50" height="52" alt=""/);
+  assert.match(footer, /src="assets\/technology\/tailwindcss\.svg" width="54" height="33" alt=""/);
+  assert.match(footer, new RegExp(`href="${trackedUrl('https://laravel.com/').replaceAll('.', '\\.').replaceAll('?', '\\?')}`));
+  assert.match(footer, new RegExp(`href="${trackedUrl('https://tailwindcss.com/').replaceAll('.', '\\.').replaceAll('?', '\\?')}`));
+  assert.match(css, /\.footer-technology\s*{[^}]*display:\s*flex;[^}]*flex-wrap:\s*wrap;/s);
+  assert.match(css, /\.technology-brand img\s*{[^}]*object-fit:\s*contain;/s);
+  await Promise.all([access(laravelLogoPath), access(tailwindLogoPath)]);
 });
 
 test('styles include responsive, focus, and reduced-motion behavior', async () => {
