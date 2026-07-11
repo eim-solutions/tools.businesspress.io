@@ -9,8 +9,6 @@ const jsPath = new URL('public/assets/js/site.js', root);
 const logoPath = new URL('public/assets/brand/businesspress-logo.png', root);
 const robotsPath = new URL('public/robots.txt', root);
 const sitemapPath = new URL('public/sitemap.xml', root);
-const latinFontPath = new URL('public/assets/fonts/onest-latin.woff2', root);
-const latinExtFontPath = new URL('public/assets/fonts/onest-latin-ext.woff2', root);
 const trackingQuery = 'utm_source=tools.businesspress.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub';
 const trackedUrl = (url) => `${url}?${trackingQuery}`;
 
@@ -29,7 +27,7 @@ test('page contains the required semantic structure and metadata', async () => {
   assert.match(html, /<meta name="description" content="[^"]+">/);
   assert.match(html, /<link rel="canonical" href="https:\/\/tools\.businesspress\.io\/">/);
   assert.match(html, /<meta property="og:title" content="[^"]+">/);
-  assert.match(html, /href="assets\/css\/site\.css\?v=12"/);
+  assert.match(html, /href="assets\/css\/site\.css\?v=13"/);
   assert.match(html, /<header\b/);
   assert.match(html, /<nav\b[^>]*aria-label="Primary"/);
   assert.match(html, /<main\b[^>]*id="main-content"/);
@@ -158,17 +156,15 @@ test('each directory entry is a top-level section in the heading outline', async
   assert.doesNotMatch(toolbox, /<h3>/);
 });
 
-test('Onest is self-hosted without Google Fonts requests', async () => {
+test('homepage uses the native system font stack without webfont requests', async () => {
   const [html, css] = await Promise.all([
     readFile(htmlPath, 'utf8'),
     readFile(cssPath, 'utf8'),
   ]);
 
-  assert.doesNotMatch(html, /fonts\.googleapis\.com|fonts\.gstatic\.com/);
-  assert.match(html, /href="assets\/fonts\/onest-latin\.woff2" as="font" type="font\/woff2" crossorigin/);
-  assert.match(css, /@font-face\s*\{[^}]*font-family:\s*'Onest';[^}]*font-weight:\s*400 800;[^}]*src:\s*url\('\.\.\/fonts\/onest-latin\.woff2'\)/s);
-  assert.match(css, /url\('\.\.\/fonts\/onest-latin-ext\.woff2'\)/);
-  await Promise.all([access(latinFontPath), access(latinExtFontPath)]);
+  assert.doesNotMatch(html, /fonts\.googleapis\.com|fonts\.gstatic\.com|assets\/fonts\/|rel="preload"[^>]*as="font"/);
+  assert.doesNotMatch(css, /@font-face|Onest|url\([^)]*fonts\//);
+  assert.match(css, /font-family:\s*ui-sans-serif,\s*system-ui,\s*-apple-system,\s*BlinkMacSystemFont,\s*'Segoe UI',\s*sans-serif;/);
 });
 
 test('all five tools have exact direct links and local screenshots', async () => {

@@ -21,7 +21,7 @@ The strategy is a committed BusinessPress blue system: white owns the canvas, co
 
 ## Typography
 
-Use Onest as the single deliberate family, sourced from Google Fonts with a system-sans fallback. Its open forms feel approachable and operational. Use weight and scale—not a second decorative family—to create contrast.
+Use the native system sans-serif stack so the directory feels consistent with the wider BusinessPress tool family on every platform. Use weight and scale—not a second decorative family—to create contrast.
 
 - Display: 700–800, fluid `clamp()`, maximum 70px, tracking no tighter than `-0.035em`
 - Headings: 650–750, balanced wrapping, with product headings capped near 41px
