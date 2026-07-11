@@ -378,6 +378,14 @@ h1 em { color: var(--primary-dark); font-style: normal; }
 .feature-list li { display: flex; align-items: center; gap: 10px; }
 .feature-list li::before { content: '✓'; color: var(--primary-dark); font-weight: 800; }
 
+.tool-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+.chrome-store-badge { min-height: 50px; display: inline-flex; align-items: center; transition: transform 180ms var(--ease-out-quart), opacity 180ms var(--ease-out-quart); }
+.chrome-store-badge:hover { transform: translateY(-2px); opacity: 0.86; }
+.chrome-store-badge:active { transform: translateY(0); }
+.chrome-store-badge img { width: 174px; height: auto; }
+.extension-overview { min-height: 44px; display: inline-flex; align-items: center; gap: 6px; margin-top: 7px; color: var(--primary-dark); font-size: 13px; font-weight: 700; }
+.extension-overview:hover { color: var(--accent); }
+
 .screenshot-wrap {
   position: relative;
   display: block;
@@ -485,6 +493,7 @@ footer { background: var(--ink); color: var(--white); }
   .hero-actions { align-items: stretch; flex-direction: column; gap: 18px; }
   .hero-assurances { gap: 8px 16px; margin-top: 24px; padding-top: 18px; }
   .button { width: 100%; }
+  .tool-actions { align-items: flex-start; flex-direction: column; }
   .text-link { align-self: flex-start; }
   .hero-visual { width: 100%; }
   .tool-deck-window-bar { font-size: 9px; }

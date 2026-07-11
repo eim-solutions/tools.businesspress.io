@@ -7,6 +7,7 @@ const htmlPath = new URL('public/index.html', root);
 const cssPath = new URL('public/assets/css/site.css', root);
 const jsPath = new URL('public/assets/js/site.js', root);
 const logoPath = new URL('public/assets/brand/businesspress-logo.png', root);
+const chromeBadgePath = new URL('public/assets/extensions/chrome-web-store-badge.png', root);
 const robotsPath = new URL('public/robots.txt', root);
 const sitemapPath = new URL('public/sitemap.xml', root);
 const trackingQuery = 'utm_source=tools.businesspress.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub';
@@ -27,7 +28,7 @@ test('page contains the required semantic structure and metadata', async () => {
   assert.match(html, /<meta name="description" content="[^"]+">/);
   assert.match(html, /<link rel="canonical" href="https:\/\/tools\.businesspress\.io\/">/);
   assert.match(html, /<meta property="og:title" content="[^"]+">/);
-  assert.match(html, /href="assets\/css\/site\.css\?v=13"/);
+  assert.match(html, /href="assets\/css\/site\.css\?v=14"/);
   assert.match(html, /<header\b/);
   assert.match(html, /<nav\b[^>]*aria-label="Primary"/);
   assert.match(html, /<main\b[^>]*id="main-content"/);
@@ -177,6 +178,24 @@ test('all five tools have exact direct links and local screenshots', async () =>
     assert.match(html, new RegExp(`alt="[^"]*${name.split(' ')[0]}[^"]*"`, 'i'));
     await access(new URL(`public/assets/screenshots/${screenshot}`, root));
   }
+});
+
+test('PDF section includes local Chrome extension artwork and both extension destinations', async () => {
+  const [html, css] = await Promise.all([
+    readFile(htmlPath, 'utf8'),
+    readFile(cssPath, 'utf8'),
+  ]);
+  const pdfSection = html.match(/<article class="tool-row tool-pdf"[\s\S]*?<\/article>/)?.[0] ?? '';
+  const storeUrl = trackedUrl('https://chromewebstore.google.com/detail/pdfcheck-pdf-analysis-too/nggkjpbbjpgkicbmmagejepipmjnfkbi');
+  const overviewUrl = trackedUrl('https://pdf.businesspress.io/chrome-extension');
+
+  assert.match(pdfSection, new RegExp(`href="${storeUrl.replaceAll('.', '\\.').replaceAll('?', '\\?')}`));
+  assert.match(pdfSection, new RegExp(`href="${overviewUrl.replaceAll('.', '\\.').replaceAll('?', '\\?')}`));
+  assert.match(pdfSection, /src="assets\/extensions\/chrome-web-store-badge\.png" width="567" height="171" loading="lazy" decoding="async" alt="Available in the Chrome Web Store"/);
+  assert.match(pdfSection, /See how the extension works/);
+  assert.match(css, /\.tool-actions\s*\{[^}]*display:\s*flex;[^}]*flex-wrap:\s*wrap;/s);
+  assert.match(css, /\.chrome-store-badge img\s*\{[^}]*width:\s*174px;[^}]*height:\s*auto;/s);
+  await access(chromeBadgePath);
 });
 
 test('interactive and image elements include accessibility affordances', async () => {
