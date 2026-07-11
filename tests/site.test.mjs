@@ -198,6 +198,18 @@ test('PDF section includes local Chrome extension artwork and both extension des
   await access(chromeBadgePath);
 });
 
+test('VAT section includes its Chrome Web Store and extension overview links', async () => {
+  const html = await readFile(htmlPath, 'utf8');
+  const vatSection = html.match(/<article class="tool-row tool-vat"[\s\S]*?<\/article>/)?.[0] ?? '';
+  const storeUrl = trackedUrl('https://chromewebstore.google.com/detail/eu-vat-calculator/fifmbbpgopnifnoginhmjjedjnabdkka');
+  const overviewUrl = trackedUrl('https://vat.businesspress.io/chrome-extension');
+
+  assert.match(vatSection, new RegExp(`href="${storeUrl.replaceAll('.', '\\.').replaceAll('?', '\\?')}`));
+  assert.match(vatSection, new RegExp(`href="${overviewUrl.replaceAll('.', '\\.').replaceAll('?', '\\?')}`));
+  assert.match(vatSection, /src="assets\/extensions\/chrome-web-store-badge\.png" width="567" height="171" loading="lazy" decoding="async" alt="Available in the Chrome Web Store"/);
+  assert.match(vatSection, /See how the extension works/);
+});
+
 test('interactive and image elements include accessibility affordances', async () => {
   const html = await readFile(htmlPath, 'utf8');
   const externalLinks = [...html.matchAll(/<a\b[^>]*href="https:\/\/[^"#]+"[^>]*>/g)].map((match) => match[0]);
