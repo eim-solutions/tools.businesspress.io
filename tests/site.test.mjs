@@ -9,6 +9,8 @@ const jsPath = new URL('public/assets/js/site.js', root);
 const logoPath = new URL('public/assets/brand/businesspress-logo.png', root);
 const robotsPath = new URL('public/robots.txt', root);
 const sitemapPath = new URL('public/sitemap.xml', root);
+const latinFontPath = new URL('public/assets/fonts/onest-latin.woff2', root);
+const latinExtFontPath = new URL('public/assets/fonts/onest-latin-ext.woff2', root);
 const trackingQuery = 'utm_source=tools.businesspress.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub';
 const trackedUrl = (url) => `${url}?${trackingQuery}`;
 
@@ -27,7 +29,7 @@ test('page contains the required semantic structure and metadata', async () => {
   assert.match(html, /<meta name="description" content="[^"]+">/);
   assert.match(html, /<link rel="canonical" href="https:\/\/tools\.businesspress\.io\/">/);
   assert.match(html, /<meta property="og:title" content="[^"]+">/);
-  assert.match(html, /href="assets\/css\/site\.css\?v=9"/);
+  assert.match(html, /href="assets\/css\/site\.css\?v=10"/);
   assert.match(html, /<header\b/);
   assert.match(html, /<nav\b[^>]*aria-label="Primary"/);
   assert.match(html, /<main\b[^>]*id="main-content"/);
@@ -95,6 +97,32 @@ test('hero tool deck switches its preview on pointer entry and keyboard focus', 
   assert.match(js, /previewCategory\.textContent = option\.dataset\.previewCategory/);
   assert.match(js, /addEventListener\('pointerenter', \(\) => activateToolPreview\(option\)\)/);
   assert.match(js, /addEventListener\('focus', \(\) => activateToolPreview\(option\)\)/);
+});
+
+test('first conversion path avoids a duplicate chooser and makes tool actions explicit', async () => {
+  const [html, css] = await Promise.all([
+    readFile(htmlPath, 'utf8'),
+    readFile(cssPath, 'utf8'),
+  ]);
+
+  assert.doesNotMatch(html, /class="tool-strip"/);
+  assert.doesNotMatch(css, /\.tool-strip(?:-|\s|\{)/);
+  assert.equal([...html.matchAll(/class="tool-deck-option(?: is-active)?"/g)].length, 5);
+  assert.equal([...html.matchAll(/aria-label="Open [^"]+ in a new tab"/g)].length, 5);
+  assert.equal([...html.matchAll(/<small>Open ↗<\/small>/g)].length, 5);
+});
+
+test('Onest is self-hosted without Google Fonts requests', async () => {
+  const [html, css] = await Promise.all([
+    readFile(htmlPath, 'utf8'),
+    readFile(cssPath, 'utf8'),
+  ]);
+
+  assert.doesNotMatch(html, /fonts\.googleapis\.com|fonts\.gstatic\.com/);
+  assert.match(html, /href="assets\/fonts\/onest-latin\.woff2" as="font" type="font\/woff2" crossorigin/);
+  assert.match(css, /@font-face\s*\{[^}]*font-family:\s*'Onest';[^}]*font-weight:\s*400 800;[^}]*src:\s*url\('\.\.\/fonts\/onest-latin\.woff2'\)/s);
+  assert.match(css, /url\('\.\.\/fonts\/onest-latin-ext\.woff2'\)/);
+  await Promise.all([access(latinFontPath), access(latinExtFontPath)]);
 });
 
 test('all five tools have exact direct links and local screenshots', async () => {
@@ -230,7 +258,7 @@ test('polished interactions use shared motion, touch, and shape tokens', async (
   assert.match(css, /--radius-lg:\s*16px;/);
   assert.match(css, /--ease-out-quart:\s*cubic-bezier\(\.25,\s*1,\s*\.5,\s*1\);/);
   assert.match(css, /\.button:active/);
-  assert.match(css, /\.quick-links a\s*{[^}]*min-height:\s*44px;/s);
+  assert.match(css, /\.tool-deck-option\s*{[^}]*min-height:\s*44px;/s);
   assert.match(css, /\.footer-links a\s*{[^}]*min-height:\s*44px;/s);
   assert.doesNotMatch(revealRule, /opacity:\s*0/);
   assert.doesNotMatch(screenshotHoverRule, /transform:/);

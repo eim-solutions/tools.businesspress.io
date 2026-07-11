@@ -8,10 +8,8 @@
   <meta name="theme-color" content="#ffffff">
   <link rel="canonical" href="https://tools.businesspress.io/">
   <link rel="icon" href="favicon.svg?v=2" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/site.css?v=9">
+  <link rel="preload" href="assets/fonts/onest-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/site.css?v=10">
   <script defer data-domain="tools.businesspress.io" src="https://stats.businesspress.io/js/script.js"></script>
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="BusinessPress Tools">
@@ -77,41 +75,28 @@
             </div>
 
             <nav class="tool-deck-options" aria-label="Preview and open a BusinessPress tool">
-              <a class="tool-deck-option is-active" href="https://pdf.businesspress.io/?utm_source=tools.businesspress.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub" target="_blank" rel="noopener noreferrer" data-tool-preview-option data-preview-src="assets/screenshots/pdf.webp" data-preview-alt="PDF tools interface showing the metadata checker" data-preview-domain="pdf.businesspress.io" data-preview-category="Documents">
+              <a class="tool-deck-option is-active" href="https://pdf.businesspress.io/?utm_source=tools.businesspress.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub" target="_blank" rel="noopener noreferrer" aria-label="Open PDF tools in a new tab" data-tool-preview-option data-preview-src="assets/screenshots/pdf.webp" data-preview-alt="PDF tools interface showing the metadata checker" data-preview-domain="pdf.businesspress.io" data-preview-category="Documents">
                 <img src="assets/screenshots/pdf.webp" width="1470" height="775" alt="">
-                <span><strong>PDF</strong><small>Documents</small></span>
+                <span><strong>PDF</strong><small>Open ↗</small></span>
               </a>
-              <a class="tool-deck-option" href="https://csv.businesspress.io/?utm_source=tools.businesspress.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub" target="_blank" rel="noopener noreferrer" data-tool-preview-option data-preview-src="assets/screenshots/csv.webp" data-preview-alt="CSV tools interface ready to validate a data file" data-preview-domain="csv.businesspress.io" data-preview-category="Data">
+              <a class="tool-deck-option" href="https://csv.businesspress.io/?utm_source=tools.businesspress.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub" target="_blank" rel="noopener noreferrer" aria-label="Open CSV tools in a new tab" data-tool-preview-option data-preview-src="assets/screenshots/csv.webp" data-preview-alt="CSV tools interface ready to validate a data file" data-preview-domain="csv.businesspress.io" data-preview-category="Data">
                 <img src="assets/screenshots/csv.webp" width="1470" height="775" alt="">
-                <span><strong>CSV</strong><small>Data</small></span>
+                <span><strong>CSV</strong><small>Open ↗</small></span>
               </a>
-              <a class="tool-deck-option" href="https://vat.businesspress.io/?utm_source=tools.businesspress.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub" target="_blank" rel="noopener noreferrer" data-tool-preview-option data-preview-src="assets/screenshots/vat.webp" data-preview-alt="EU VAT info interface showing a VAT calculation" data-preview-domain="vat.businesspress.io" data-preview-category="Finance">
+              <a class="tool-deck-option" href="https://vat.businesspress.io/?utm_source=tools.businesspress.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub" target="_blank" rel="noopener noreferrer" aria-label="Open EU VAT calculator in a new tab" data-tool-preview-option data-preview-src="assets/screenshots/vat.webp" data-preview-alt="EU VAT info interface showing a VAT calculation" data-preview-domain="vat.businesspress.io" data-preview-category="Finance">
                 <img src="assets/screenshots/vat.webp" width="1470" height="775" alt="">
-                <span><strong>VAT</strong><small>Finance</small></span>
+                <span><strong>VAT</strong><small>Open ↗</small></span>
               </a>
-              <a class="tool-deck-option" href="https://qr.businesspress.io/?utm_source=tools.businesspress.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub" target="_blank" rel="noopener noreferrer" data-tool-preview-option data-preview-src="assets/screenshots/qr.webp" data-preview-alt="QR generator interface with QR types for URL, Wi-Fi and contacts" data-preview-domain="qr.businesspress.io" data-preview-category="Sharing">
+              <a class="tool-deck-option" href="https://qr.businesspress.io/?utm_source=tools.businesspress.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub" target="_blank" rel="noopener noreferrer" aria-label="Open QR generator in a new tab" data-tool-preview-option data-preview-src="assets/screenshots/qr.webp" data-preview-alt="QR generator interface with QR types for URL, Wi-Fi and contacts" data-preview-domain="qr.businesspress.io" data-preview-category="Sharing">
                 <img src="assets/screenshots/qr.webp" width="1462" height="771" alt="">
-                <span><strong>QR</strong><small>Sharing</small></span>
+                <span><strong>QR</strong><small>Open ↗</small></span>
               </a>
-              <a class="tool-deck-option" href="https://clock.businesspress.io/?utm_source=tools.businesspress.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub" target="_blank" rel="noopener noreferrer" data-tool-preview-option data-preview-src="assets/screenshots/clock.webp" data-preview-alt="Just Clock interface with a large digital time display" data-preview-domain="clock.businesspress.io" data-preview-category="Time">
+              <a class="tool-deck-option" href="https://clock.businesspress.io/?utm_source=tools.businesspress.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub" target="_blank" rel="noopener noreferrer" aria-label="Open Just Clock in a new tab" data-tool-preview-option data-preview-src="assets/screenshots/clock.webp" data-preview-alt="Just Clock interface with a large digital time display" data-preview-domain="clock.businesspress.io" data-preview-category="Time">
                 <img src="assets/screenshots/clock.webp" width="1470" height="775" alt="">
-                <span><strong>Clock</strong><small>Time</small></span>
+                <span><strong>Clock</strong><small>Open ↗</small></span>
               </a>
             </nav>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="tool-strip" aria-label="Tool index">
-      <div class="shell tool-strip-inner">
-        <p>Choose your job</p>
-        <div class="quick-links">
-          <a href="#pdf"><strong>PDF</strong><span>Documents</span></a>
-          <a href="#csv"><strong>CSV</strong><span>Data</span></a>
-          <a href="#vat"><strong>VAT</strong><span>Finance</span></a>
-          <a href="#qr"><strong>QR</strong><span>Sharing</span></a>
-          <a href="#clock"><strong>Clock</strong><span>Time</span></a>
         </div>
       </div>
     </section>
