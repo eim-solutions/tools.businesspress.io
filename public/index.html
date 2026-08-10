@@ -3,33 +3,134 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>BusinessPress Tools — PDF, CSV, VAT, QR &amp; Clock</title>
-  <meta name="description" content="Free browser tools from BusinessPress for checking PDFs, validating CSV files, calculating EU VAT, creating QR codes, and keeping time.">
+  <title>Free Online Business Tools | PDF, CSV, VAT, QR &amp; SEO</title>
+  <meta name="description" content="Use free BusinessPress tools to check PDFs and SEO markup, validate CSV files, calculate EU VAT, create QR codes, and keep time.">
+  <meta name="robots" content="index,follow,max-image-preview:large">
   <meta name="theme-color" content="#ffffff">
   <link rel="canonical" href="https://tools.businesspress.io/">
   <link rel="icon" href="favicon.svg?v=2" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/css/site.css?v=15">
+  <link rel="stylesheet" href="assets/css/site.css?v=17">
   <script defer data-domain="tools.businesspress.io" src="https://stats.businesspress.io/js/script.js"></script>
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="BusinessPress Tools">
-  <meta property="og:title" content="BusinessPress Tools — PDF, CSV, VAT, QR &amp; Clock">
-  <meta property="og:description" content="Check PDFs, validate CSV files, calculate EU VAT, create QR codes, and keep time with free BusinessPress tools.">
+  <meta property="og:title" content="Free Online Business Tools | BusinessPress">
+  <meta property="og:description" content="Check PDFs and SEO markup, validate CSV files, calculate EU VAT, create QR codes, and keep time with free BusinessPress tools.">
   <meta property="og:url" content="https://tools.businesspress.io/">
   <meta property="og:image" content="https://tools.businesspress.io/assets/screenshots/pdf.webp">
+  <meta property="og:image:alt" content="BusinessPress PDF metadata checker interface">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Free Online Business Tools | BusinessPress">
+  <meta name="twitter:description" content="Free browser tools for PDF, CSV, EU VAT, QR codes, SEO markup, schema, social previews, and time.">
+  <meta name="twitter:image" content="https://tools.businesspress.io/assets/screenshots/pdf.webp">
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "ItemList",
-      "name": "BusinessPress Tools",
-      "url": "https://tools.businesspress.io/",
-      "numberOfItems": 5,
-      "itemListElement": [
-        {"@type":"ListItem","position":1,"name":"PDF tools","url":"https://pdf.businesspress.io/"},
-        {"@type":"ListItem","position":2,"name":"CSV tools","url":"https://csv.businesspress.io/"},
-        {"@type":"ListItem","position":3,"name":"EU VAT info","url":"https://vat.businesspress.io/"},
-        {"@type":"ListItem","position":4,"name":"QR generator","url":"https://qr.businesspress.io/"},
-        {"@type":"ListItem","position":5,"name":"Just Clock","url":"https://clock.businesspress.io/"}
+      "@graph": [
+        {
+          "@type": "CollectionPage",
+          "@id": "https://tools.businesspress.io/#page",
+          "url": "https://tools.businesspress.io/",
+          "name": "Free Online Business Tools",
+          "description": "Free online tools for checking PDFs and SEO markup, validating CSV files, calculating EU VAT, creating QR codes, and keeping time.",
+          "isPartOf": {"@id": "https://tools.businesspress.io/#website"},
+          "mainEntity": {"@id": "https://tools.businesspress.io/#tools"}
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://tools.businesspress.io/#website",
+          "url": "https://tools.businesspress.io/",
+          "name": "BusinessPress Tools",
+          "publisher": {
+            "@type": "Organization",
+            "name": "BusinessPress",
+            "url": "https://businesspress.io/",
+            "logo": "https://tools.businesspress.io/assets/brand/businesspress-logo.png"
+          }
+        },
+        {
+          "@type": "ItemList",
+          "@id": "https://tools.businesspress.io/#tools",
+          "name": "BusinessPress online tools",
+          "numberOfItems": 6,
+          "itemListElement": [
+            {"@type":"ListItem","position":1,"name":"PDF metadata checker and document tools","url":"https://pdf.businesspress.io/"},
+            {"@type":"ListItem","position":2,"name":"Online CSV validator","url":"https://csv.businesspress.io/"},
+            {"@type":"ListItem","position":3,"name":"EU VAT calculator","url":"https://vat.businesspress.io/"},
+            {"@type":"ListItem","position":4,"name":"Free QR code generator","url":"https://qr.businesspress.io/"},
+            {"@type":"ListItem","position":5,"name":"Online clock, timer, and countdown","url":"https://clock.businesspress.io/"},
+            {"@type":"ListItem","position":6,"name":"Schema, SEO, social preview, and tracking checker","url":"https://schema.businesspress.io/"}
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://tools.businesspress.io/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Are BusinessPress online tools free?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. All six BusinessPress tools are free to open and use without creating an account."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Which tool can check PDF metadata and edit history?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "BusinessPress PDF tools can review document metadata and edit history, validate signatures, and provide practical page utilities."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What problems can the online CSV validator find?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The CSV validator checks structure, encoding, delimiter use, column types, duplicates, and other common data problems."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I add or remove VAT with the EU VAT calculator?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Choose an EU country and use its VAT rate to add VAT to a net amount or remove VAT from a gross amount."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What types of QR codes can I create?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Create QR codes for links, Wi-Fi access, contacts, email, phone numbers, messages, and events, then download PNG or SVG."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does the clock include a timer and countdown?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Just Clock includes a clean online clock, timer, and countdown with timezone and fullscreen controls."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Which tool checks schema, social previews, and tracking tags?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "SEOMarkup checks Schema.org data, SEO and social metadata, approximate share previews, and common tracking tags from a public URL or a local Chrome extension."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Are uploaded PDF and CSV files stored?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The BusinessPress PDF and CSV tools state that submitted files are not stored. Check the privacy information inside each tool for current processing details."
+              }
+            }
+          ]
+        }
       ]
     }
   </script>
@@ -55,7 +156,7 @@
         <div class="hero-copy" data-reveal>
           <p class="eyebrow"><span aria-hidden="true"></span> The BusinessPress toolbox</p>
           <h1>Privacy first.<br><em>Everyday tools.</em></h1>
-          <p class="hero-intro">Check a PDF, validate a CSV, calculate EU VAT, create a QR code, or keep time—free in your browser.</p>
+          <p class="hero-intro">Check a PDF or website markup, validate a CSV, calculate EU VAT, create a QR code, or keep time. Free in your browser.</p>
           <div class="hero-actions">
             <a class="button button-primary" href="#toolbox">Choose a tool <span aria-hidden="true">↓</span></a>
             <a class="text-link" href="https://businesspress.io/?utm_source=tools.businesspress.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub" target="_blank" rel="noopener noreferrer">Visit BusinessPress <span aria-hidden="true">↗</span></a>
@@ -99,9 +200,30 @@
                 <img src="assets/screenshots/clock.webp" width="1470" height="775" alt="">
                 <span><strong>Clock</strong><small>Open ↗</small></span>
               </a>
+              <a class="tool-deck-option" href="https://schema.businesspress.io/?utm_source=tools.businesspress.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub" target="_blank" rel="noopener noreferrer" aria-label="Open SEOMarkup in a new tab" data-tool-preview-option data-preview-src="assets/screenshots/schema.webp" data-preview-alt="SEOMarkup interface showing schema findings, SEO metadata and tracking tags" data-preview-domain="schema.businesspress.io" data-preview-category="Websites" data-track-tool-open data-track-tool="schema" data-track-location="hero" data-track-element="tile">
+                <img src="assets/screenshots/schema.webp" width="740" height="600" alt="">
+                <span><strong>SEO</strong><small>Open ↗</small></span>
+              </a>
             </nav>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="guide-section" aria-labelledby="guide-title">
+      <div class="shell guide-layout" data-reveal>
+        <div class="guide-heading">
+          <h2 id="guide-title">Choose the task.</h2>
+          <p>Jump to the tool that fits the job. Every tool opens without an account.</p>
+        </div>
+        <nav class="guide-index" aria-label="Jump to a BusinessPress tool">
+          <a href="#pdf"><strong>Check a PDF</strong><span>Documents</span></a>
+          <a href="#csv"><strong>Validate a CSV</strong><span>Data</span></a>
+          <a href="#vat"><strong>Calculate VAT</strong><span>Finance</span></a>
+          <a href="#qr"><strong>Create a QR code</strong><span>Sharing</span></a>
+          <a href="#clock"><strong>Run a timer</strong><span>Time</span></a>
+          <a href="#schema"><strong>Inspect SEO markup</strong><span>Websites</span></a>
+        </nav>
       </div>
     </section>
 
@@ -110,7 +232,7 @@
         <div class="tool-copy">
           <span class="tool-category">Documents</span>
           <h2>Check a PDF before you rely on it.</h2>
-          <p>Review metadata and edit history, validate signatures, and use practical page tools—all in your browser.</p>
+          <p>Review metadata and edit history, validate signatures, and use practical page tools in your browser.</p>
           <ul class="feature-list" aria-label="PDF tool highlights">
             <li>Metadata and edit history</li>
             <li>Validation and document utilities</li>
@@ -202,6 +324,68 @@
           <img src="assets/screenshots/clock.webp" width="1470" height="775" loading="lazy" decoding="async" alt="Just Clock interface with a large digital time display">
         </a>
       </article>
+
+      <article class="tool-row tool-schema tool-row-reverse" id="schema" data-reveal>
+        <div class="tool-copy">
+          <span class="tool-category">Websites</span>
+          <h2>Check schema, social previews, and tracking tags.</h2>
+          <p>Inspect Schema.org data, SEO and social metadata, share previews, and common tracking code without a made-up score.</p>
+          <ul class="feature-list" aria-label="SEOMarkup highlights">
+            <li>Schema, SEO, and social metadata</li>
+            <li>Public URL checks and a local Chrome extension</li>
+          </ul>
+          <a class="button button-dark" href="https://schema.businesspress.io/?utm_source=tools.businesspress.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub" target="_blank" rel="noopener noreferrer" data-track-tool-open data-track-tool="schema" data-track-location="details" data-track-element="button">Open SEOMarkup <span aria-hidden="true">↗</span></a>
+        </div>
+        <a class="screenshot-wrap" href="https://schema.businesspress.io/?utm_source=tools.businesspress.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub" target="_blank" rel="noopener noreferrer" aria-label="Open SEOMarkup" data-track-tool-open data-track-tool="schema" data-track-location="details" data-track-element="screenshot">
+          <span class="screenshot-label">schema.businesspress.io <span aria-hidden="true">↗</span></span>
+          <img src="assets/screenshots/schema.webp" width="740" height="600" loading="lazy" decoding="async" alt="SEOMarkup report showing schema findings, SEO metadata, social previews, and tracking tags">
+        </a>
+      </article>
+    </section>
+
+    <section class="faq-section" id="faq" aria-labelledby="faq-title">
+      <div class="shell faq-layout">
+        <div class="faq-heading" data-reveal>
+          <h2 id="faq-title">Common questions about BusinessPress Tools.</h2>
+          <p>Short answers about cost, accounts, file handling, and what each online tool can do.</p>
+          <a href="#toolbox">Browse all tools <span aria-hidden="true">↑</span></a>
+        </div>
+
+        <div class="faq-list" data-reveal>
+          <details open>
+            <summary>Are BusinessPress online tools free?</summary>
+            <p>Yes. All six BusinessPress tools are free to open and use without creating an account.</p>
+          </details>
+          <details>
+            <summary>Which tool can check PDF metadata and edit history?</summary>
+            <p>BusinessPress PDF tools can review document metadata and edit history, validate signatures, and provide practical page utilities.</p>
+          </details>
+          <details>
+            <summary>What problems can the online CSV validator find?</summary>
+            <p>The CSV validator checks structure, encoding, delimiter use, column types, duplicates, and other common data problems.</p>
+          </details>
+          <details>
+            <summary>Can I add or remove VAT with the EU VAT calculator?</summary>
+            <p>Yes. Choose an EU country and use its VAT rate to add VAT to a net amount or remove VAT from a gross amount.</p>
+          </details>
+          <details>
+            <summary>What types of QR codes can I create?</summary>
+            <p>Create QR codes for links, Wi-Fi access, contacts, email, phone numbers, messages, and events, then download PNG or SVG.</p>
+          </details>
+          <details>
+            <summary>Does the clock include a timer and countdown?</summary>
+            <p>Yes. Just Clock includes a clean online clock, timer, and countdown with timezone and fullscreen controls.</p>
+          </details>
+          <details>
+            <summary>Which tool checks schema, social previews, and tracking tags?</summary>
+            <p>SEOMarkup checks Schema.org data, SEO and social metadata, approximate share previews, and common tracking tags from a public URL or a local Chrome extension.</p>
+          </details>
+          <details>
+            <summary>Are uploaded PDF and CSV files stored?</summary>
+            <p>The BusinessPress PDF and CSV tools state that submitted files are not stored. Check the privacy information inside each tool for current processing details.</p>
+          </details>
+        </div>
+      </div>
     </section>
 
     <section class="closing-section">
@@ -238,6 +422,7 @@
         <a href="https://vat.businesspress.io/?utm_source=tools.businesspress.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub" target="_blank" rel="noopener noreferrer" data-track-tool-open data-track-tool="vat" data-track-location="footer" data-track-element="text-link">VAT</a>
         <a href="https://qr.businesspress.io/?utm_source=tools.businesspress.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub" target="_blank" rel="noopener noreferrer" data-track-tool-open data-track-tool="qr" data-track-location="footer" data-track-element="text-link">QR</a>
         <a href="https://clock.businesspress.io/?utm_source=tools.businesspress.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub" target="_blank" rel="noopener noreferrer" data-track-tool-open data-track-tool="clock" data-track-location="footer" data-track-element="text-link">Clock</a>
+        <a href="https://schema.businesspress.io/?utm_source=tools.businesspress.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub" target="_blank" rel="noopener noreferrer" data-track-tool-open data-track-tool="schema" data-track-location="footer" data-track-element="text-link">SEO</a>
       </div>
       <div class="footer-technology" aria-label="Powered by Laravel and Tailwind CSS">
         <span>Powered by</span>
@@ -255,7 +440,7 @@
     </div>
   </footer>
 
-  <noscript><p class="noscript">JavaScript is off. Everything still works—each tool link is available above.</p></noscript>
+  <noscript><p class="noscript">JavaScript is off. Everything still works. Each tool link is available above.</p></noscript>
   <script src="assets/js/site.js?v=3" defer></script>
 </body>
 </html>
