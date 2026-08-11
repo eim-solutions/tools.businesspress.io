@@ -12,6 +12,7 @@ const laravelLogoPath = new URL('public/assets/technology/laravel.svg', root);
 const tailwindLogoPath = new URL('public/assets/technology/tailwindcss.svg', root);
 const robotsPath = new URL('public/robots.txt', root);
 const sitemapPath = new URL('public/sitemap.xml', root);
+const htmlSitemapPath = new URL('public/sitemap/index.html', root);
 const llmsPath = new URL('public/llms.txt', root);
 const trackingQuery = 'utm_source=tools.businesspress.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub';
 const trackedUrl = (url) => `${url}?${trackingQuery}`;
@@ -33,7 +34,7 @@ test('page contains the required semantic structure and metadata', async () => {
   assert.match(html, /<meta name="robots" content="index,follow,max-image-preview:large">/);
   assert.match(html, /<link rel="canonical" href="https:\/\/tools\.businesspress\.io\/">/);
   assert.match(html, /<meta property="og:title" content="[^"]+">/);
-  assert.match(html, /href="assets\/css\/site\.css\?v=17"/);
+  assert.match(html, /href="assets\/css\/site\.css\?v=18"/);
   assert.match(html, /<header\b/);
   assert.match(html, /<nav\b[^>]*aria-label="Primary"/);
   assert.match(html, /<main\b[^>]*id="main-content"/);
@@ -285,17 +286,24 @@ test('closing section invites visitors to create with the BusinessPress platform
 });
 
 test('analytics and search discovery assets are configured', async () => {
-  const [html, robots, sitemap, llms] = await Promise.all([
+  const [html, robots, sitemap, htmlSitemap, llms] = await Promise.all([
     readFile(htmlPath, 'utf8'),
     readFile(robotsPath, 'utf8'),
     readFile(sitemapPath, 'utf8'),
+    readFile(htmlSitemapPath, 'utf8'),
     readFile(llmsPath, 'utf8'),
   ]);
 
   assert.match(html, /<script defer data-domain="tools\.businesspress\.io" src="https:\/\/stats\.businesspress\.io\/js\/script\.js"><\/script>/);
   assert.match(robots, /Sitemap: https:\/\/tools\.businesspress\.io\/sitemap\.xml/);
   assert.match(sitemap, /<loc>https:\/\/tools\.businesspress\.io\/<\/loc>/);
+  assert.match(sitemap, /<loc>https:\/\/tools\.businesspress\.io\/sitemap\/<\/loc>/);
   assert.match(sitemap, /<lastmod>2026-08-11<\/lastmod>/);
+  assert.match(html, /<footer>[\s\S]*href="\/sitemap\/"/);
+  assert.match(htmlSitemap, /<link rel="canonical" href="https:\/\/tools\.businesspress\.io\/sitemap\/">/);
+  assert.match(htmlSitemap, /href="\/sitemap\.xml"/);
+  for (const [, url] of tools) assert.match(htmlSitemap, new RegExp(url.replaceAll('.', '\\.')));
+  assert.match(await readFile(cssPath, 'utf8'), /\.sitemap-links\s*{[^}]*display:\s*block;/s);
   assert.match(llms, /https:\/\/schema\.businesspress\.io\//);
 });
 
