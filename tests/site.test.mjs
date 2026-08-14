@@ -35,7 +35,7 @@ test('page contains the required semantic structure and metadata', async () => {
   assert.match(html, /<meta name="robots" content="index,follow,max-image-preview:large">/);
   assert.match(html, /<link rel="canonical" href="https:\/\/tools\.businesspress\.io\/">/);
   assert.match(html, /<meta property="og:title" content="[^"]+">/);
-  assert.match(html, /href="assets\/css\/site\.css\?v=19"/);
+  assert.match(html, /href="assets\/css\/site\.css\?v=20"/);
   assert.match(html, /<header\b/);
   assert.match(html, /<nav\b[^>]*aria-label="Primary"/);
   assert.match(html, /<main\b[^>]*id="main-content"/);
@@ -324,9 +324,19 @@ test('updates page provides a chronological, reusable product news stream', asyn
   const jsonLd = JSON.parse(jsonLdText);
 
   assert.equal(jsonLd['@type'], 'Blog');
+  assert.equal(jsonLd.inLanguage, 'en');
+  assert.equal(jsonLd.dateModified, '2026-08-14');
   assert.equal(jsonLd.blogPost.length, 2);
+  assert.ok(jsonLd.blogPost.every((post) => post.description && post.dateModified));
   assert.equal([...updates.matchAll(/<article class="update-entry"/g)].length, 2);
   assert.ok(updates.indexOf('datetime="2026-08-14"') < updates.indexOf('datetime="2026-08-11"'));
+  assert.match(updates, /<title>BusinessPress Tools Changelog \| New Tools &amp; Updates<\/title>/);
+  assert.match(updates, /<meta name="description" content="Read the BusinessPress Tools changelog/);
+  assert.match(updates, /<h1>BusinessPress Tools changelog\.<\/h1>/);
+  assert.match(updates, /Follow new tool launches, product improvements, and important changes across BusinessPress Tools\./);
+  assert.match(updates, /href="#pdfcheck-new-home">Read the latest update/);
+  assert.match(updates, /<header class="updates-stream-heading">/);
+  assert.match(updates, /<h2 id="updates-title">Latest updates<\/h2>/);
   assert.match(updates, /PDFCheck has a new home at pdfcheck\.online/);
   assert.match(updates, /SEOMarkup joins the BusinessPress toolbox/);
   assert.match(updates, new RegExp(trackedUrl('https://pdfcheck.online/').replaceAll('.', '\\.').replaceAll('?', '\\?')));
@@ -334,7 +344,10 @@ test('updates page provides a chronological, reusable product news stream', asyn
   assert.match(updates, /aria-current="page">Changelog<\/a>/);
   assert.match(html, /class="header-link" href="\/updates\/">Changelog<\/a>/);
   assert.match(html, /<footer>[\s\S]*href="\/updates\/">Changelog<\/a>/);
-  assert.match(css, /\.updates-layout\s*\{[^}]*display:\s*grid;/s);
+  assert.doesNotMatch(updates, /<aside|Update archive|>Archive<|updates-index/);
+  assert.doesNotMatch(css, /\.updates-layout|\.updates-index|\.updates-kicker/);
+  assert.match(css, /\.updates-hero-grid\s*\{[^}]*min-height:\s*360px;[^}]*display:\s*grid;/s);
+  assert.match(css, /\.updates-stream\s*\{[^}]*max-width:\s*1080px;/s);
   assert.match(css, /\.update-entry\s*\{[^}]*display:\s*grid;/s);
   assert.match(css, /@media \(max-width: 639px\)[\s\S]*?\.update-entry\s*\{[^}]*grid-template-columns:\s*1fr;/s);
 });
