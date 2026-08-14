@@ -315,7 +315,8 @@ test('analytics and search discovery assets are configured', async () => {
 });
 
 test('updates page provides a chronological, reusable product news stream', async () => {
-  const [updates, css] = await Promise.all([
+  const [html, updates, css] = await Promise.all([
+    readFile(htmlPath, 'utf8'),
     readFile(updatesPath, 'utf8'),
     readFile(cssPath, 'utf8'),
   ]);
@@ -330,7 +331,9 @@ test('updates page provides a chronological, reusable product news stream', asyn
   assert.match(updates, /SEOMarkup joins the BusinessPress toolbox/);
   assert.match(updates, new RegExp(trackedUrl('https://pdfcheck.online/').replaceAll('.', '\\.').replaceAll('?', '\\?')));
   assert.doesNotMatch(updates, /pdf\.businesspress\.io/);
-  assert.match(updates, /aria-current="page">Updates<\/a>/);
+  assert.match(updates, /aria-current="page">Changelog<\/a>/);
+  assert.match(html, /class="header-link" href="\/updates\/">Changelog<\/a>/);
+  assert.match(html, /<footer>[\s\S]*href="\/updates\/">Changelog<\/a>/);
   assert.match(css, /\.updates-layout\s*\{[^}]*display:\s*grid;/s);
   assert.match(css, /\.update-entry\s*\{[^}]*display:\s*grid;/s);
   assert.match(css, /@media \(max-width: 639px\)[\s\S]*?\.update-entry\s*\{[^}]*grid-template-columns:\s*1fr;/s);
