@@ -8,8 +8,6 @@ const cssPath = new URL('public/assets/css/site.css', root);
 const jsPath = new URL('public/assets/js/site.js', root);
 const logoPath = new URL('public/assets/brand/businesspress-logo.png', root);
 const chromeBadgePath = new URL('public/assets/extensions/chrome-web-store-badge.png', root);
-const laravelLogoPath = new URL('public/assets/technology/laravel.svg', root);
-const tailwindLogoPath = new URL('public/assets/technology/tailwindcss.svg', root);
 const robotsPath = new URL('public/robots.txt', root);
 const sitemapPath = new URL('public/sitemap.xml', root);
 const htmlSitemapPath = new URL('public/sitemap/index.html', root);
@@ -35,7 +33,7 @@ test('page contains the required semantic structure and metadata', async () => {
   assert.match(html, /<meta name="robots" content="index,follow,max-image-preview:large">/);
   assert.match(html, /<link rel="canonical" href="https:\/\/tools\.businesspress\.io\/">/);
   assert.match(html, /<meta property="og:title" content="[^"]+">/);
-  assert.match(html, /href="assets\/css\/site\.css\?v=20"/);
+  assert.match(html, /href="assets\/css\/site\.css\?v=21"/);
   assert.match(html, /<header\b/);
   assert.match(html, /<nav\b[^>]*aria-label="Primary"/);
   assert.match(html, /<main\b[^>]*id="main-content"/);
@@ -44,7 +42,7 @@ test('page contains the required semantic structure and metadata', async () => {
   assert.match(html, /Skip to content/);
 });
 
-test('homepage uses the bold blue second-generation hero', async () => {
+test('homepage uses a task-first blue hero', async () => {
   const [html, css] = await Promise.all([
     readFile(htmlPath, 'utf8'),
     readFile(cssPath, 'utf8'),
@@ -52,8 +50,9 @@ test('homepage uses the bold blue second-generation hero', async () => {
 
   assert.match(html, /<section class="hero hero-v2">/);
   assert.match(html, /<div class="shell hero-inner">/);
-  assert.match(html, /The BusinessPress toolbox/);
-  assert.match(html, /Privacy first\.<br><em>Everyday tools\.<\/em>/);
+  assert.match(html, /Pick the task\.<br><em>Open the right tool\.<\/em>/);
+  assert.doesNotMatch(html, /Privacy first\.<br><em>Everyday tools\.<\/em>/);
+  assert.doesNotMatch(html, /class="eyebrow"/);
   assert.match(css, /\.hero-v2\s*{[^}]*background:/s);
   assert.match(css, /\.hero-inner\s*{[^}]*display:\s*grid;/s);
   assert.doesNotMatch(css, /background-clip:\s*text/);
@@ -78,11 +77,14 @@ test('hero presents a sphere-free six-tool preview deck', async () => {
   assert.equal([...hero.matchAll(/data-preview-alt="[^"]+"/g)].length, 6);
   assert.equal([...hero.matchAll(/data-preview-domain="(?:pdfcheck\.online|(?:csv|vat|qr|clock|schema)\.businesspress\.io)"/g)].length, 6);
   assert.equal([...hero.matchAll(/data-preview-category="(?:Documents|Data|Finance|Sharing|Time|Websites)"/g)].length, 6);
-  assert.match(html, /src="assets\/js\/site\.js\?v=3"/);
+  assert.match(html, /src="assets\/js\/site\.js\?v=4"/);
   assert.match(css, /\.tool-deck-option\s*\{[^}]*min-height:\s*44px;/s);
   assert.match(css, /\.tool-deck-option\.is-active/);
   assert.match(css, /\.tool-deck-option:focus-visible/);
-  assert.match(css, /@media \(max-width: 639px\)[\s\S]*?\.tool-deck-options\s*\{[^}]*overflow-x:\s*auto;[^}]*scroll-snap-type:\s*x mandatory;/s);
+  assert.match(css, /@media \(max-width: 639px\)[\s\S]*?\.tool-deck-heading\s*\{[^}]*order:\s*1;/s);
+  assert.match(css, /@media \(max-width: 639px\)[\s\S]*?\.tool-deck-options\s*\{[^}]*order:\s*2;[^}]*grid-template-columns:\s*repeat\(2,/s);
+  assert.match(css, /@media \(max-width: 639px\)[\s\S]*?\.tool-deck-preview\s*\{[^}]*order:\s*3;/s);
+  assert.doesNotMatch(css, /@media \(max-width: 639px\)[\s\S]*?\.tool-deck-options\s*\{[^}]*overflow-x:\s*auto;/s);
   assert.doesNotMatch(hero, /\borbit\b|\bpreview-side\b/);
   assert.doesNotMatch(css, /\.orbit\b|\.preview-side\b/);
   assert.doesNotMatch(heroRule, /radial-gradient/);
@@ -113,9 +115,12 @@ test('first conversion path avoids a duplicate chooser and makes tool actions ex
 
   assert.doesNotMatch(html, /class="tool-strip"/);
   assert.doesNotMatch(css, /\.tool-strip(?:-|\s|\{)/);
-  assert.equal([...html.matchAll(/class="tool-deck-option(?: is-active)?"/g)].length, 6);
-  assert.equal([...html.matchAll(/aria-label="Open [^"]+ in a new tab"/g)].length, 6);
-  assert.equal([...html.matchAll(/<small>Open ↗<\/small>/g)].length, 6);
+  assert.match(html, /<nav class="tool-deck-options" id="tool-chooser" aria-label="Choose a BusinessPress tool by task">/);
+  assert.equal([...html.matchAll(/class="tool-deck-option"/g)].length, 6);
+  assert.equal([...html.matchAll(/href="#(?:pdf|csv|vat|qr|clock|schema)" aria-label="Preview [^"]+ and view details below"/g)].length, 6);
+  assert.doesNotMatch(html, /class="tool-deck-option is-active"/);
+  assert.doesNotMatch(html, /class="guide-section"/);
+  assert.doesNotMatch(css, /\.guide-(?:section|index|item)/);
 });
 
 test('hero answers common trust objections with verified, specific assurances', async () => {
@@ -127,7 +132,8 @@ test('hero answers common trust objections with verified, specific assurances', 
   assert.match(html, /<ul class="hero-assurances" aria-label="Tool assurances">/);
   assert.match(html, /<li>Free to use<\/li>/);
   assert.match(html, /<li>No account needed<\/li>/);
-  assert.match(html, /<li>PDF &amp; CSV files aren’t stored<\/li>/);
+  assert.match(html, /<li>Direct links to every tool<\/li>/);
+  assert.doesNotMatch(html, /<li>PDF &amp; CSV files aren’t stored<\/li>/);
   assert.match(css, /\.hero-assurances\s*\{[^}]*display:\s*flex;[^}]*list-style:\s*none;/s);
   assert.match(css, /\.hero-assurances li::before\s*\{[^}]*content:\s*'✓';/s);
 });
@@ -138,14 +144,14 @@ test('tool opens are measured by tool, page location, and link type', async () =
     readFile(jsPath, 'utf8'),
   ]);
 
-  assert.equal([...html.matchAll(/data-track-tool-open/g)].length, 24);
+  assert.equal([...html.matchAll(/data-track-tool-open/g)].length, 18);
   for (const tool of ['pdf', 'csv', 'vat', 'qr', 'clock', 'schema']) {
-    assert.equal([...html.matchAll(new RegExp(`data-track-tool="${tool}"`, 'g'))].length, 4);
+    assert.equal([...html.matchAll(new RegExp(`data-track-tool="${tool}"`, 'g'))].length, 3);
   }
-  assert.equal([...html.matchAll(/data-track-location="hero"/g)].length, 6);
   assert.equal([...html.matchAll(/data-track-location="details"/g)].length, 12);
   assert.equal([...html.matchAll(/data-track-location="footer"/g)].length, 6);
-  assert.equal([...html.matchAll(/data-track-element="tile"/g)].length, 6);
+  assert.equal([...html.matchAll(/data-track-location="hero"/g)].length, 0);
+  assert.equal([...html.matchAll(/data-track-element="tile"/g)].length, 0);
   assert.equal([...html.matchAll(/data-track-element="button"/g)].length, 6);
   assert.equal([...html.matchAll(/data-track-element="screenshot"/g)].length, 6);
   assert.equal([...html.matchAll(/data-track-element="text-link"/g)].length, 6);
@@ -180,7 +186,7 @@ test('all six tools have exact direct links and local screenshots', async () => 
 
   for (const [name, url, screenshot] of tools) {
     const trackedHref = `href="${trackedUrl(url).replaceAll('.', '\\.').replaceAll('?', '\\?')}`;
-    assert.equal([...html.matchAll(new RegExp(trackedHref, 'g'))].length, 4);
+    assert.equal([...html.matchAll(new RegExp(trackedHref, 'g'))].length, 3);
     assert.match(html, new RegExp(`src="assets/screenshots/${screenshot.replace('.', '\\.')}`));
     assert.match(html, new RegExp(`alt="[^"]*${name.split(' ')[0]}[^"]*"`, 'i'));
     await access(new URL(`public/assets/screenshots/${screenshot}`, root));
@@ -207,7 +213,7 @@ test('PDF section includes local Chrome extension artwork and both extension des
 
 test('VAT section includes its Chrome Web Store and extension overview links', async () => {
   const html = await readFile(htmlPath, 'utf8');
-  const vatSection = html.match(/<article class="tool-row tool-vat"[\s\S]*?<\/article>/)?.[0] ?? '';
+  const vatSection = html.match(/<article class="tool-row tool-vat tool-row-compact"[\s\S]*?<\/article>/)?.[0] ?? '';
   const storeUrl = trackedUrl('https://chromewebstore.google.com/detail/eu-vat-calculator/fifmbbpgopnifnoginhmjjedjnabdkka');
   const overviewUrl = trackedUrl('https://vat.businesspress.io/chrome-extension');
 
@@ -245,38 +251,37 @@ test('copy names concrete tasks and uses consistent actions', async () => {
   assert.match(html, /Check schema, social previews, and tracking tags\./);
 });
 
-test('compact task index leads directly into the detailed tools', async () => {
+test('canonical task chooser leads directly into a shorter tool directory', async () => {
   const [html, css] = await Promise.all([
     readFile(htmlPath, 'utf8'),
     readFile(cssPath, 'utf8'),
   ]);
 
   assert.match(html, /<section class="toolbox shell" id="toolbox" aria-label="BusinessPress tools">/);
-  assert.match(html, /<section class="guide-section" aria-labelledby="guide-title">/);
-  assert.match(html, /<nav class="guide-index" aria-label="Jump to a BusinessPress tool">/);
-  assert.equal([...html.matchAll(/<a href="#(?:pdf|csv|vat|qr|clock|schema)"><strong>/g)].length, 6);
-  assert.ok(html.indexOf('class="guide-section"') < html.indexOf('class="toolbox shell"'));
+  assert.match(html, /<nav class="tool-deck-options" id="tool-chooser"/);
+  assert.equal([...html.matchAll(/class="tool-deck-option" href="#(?:pdf|csv|vat|qr|clock|schema)"/g)].length, 6);
+  assert.ok(html.indexOf('id="tool-chooser"') < html.indexOf('class="toolbox shell"'));
+  assert.equal([...html.matchAll(/class="tool-row[^"\n]*tool-row-compact/g)].length, 4);
+  assert.doesNotMatch(html, /class="guide-section"|class="guide-index"/);
+  assert.doesNotMatch(css, /\.guide-(?:section|index|item)/);
   assert.doesNotMatch(html, /Five tools for the tasks that should take seconds\./);
   assert.doesNotMatch(html, /class="section-heading"/);
-  assert.match(css, /\.toolbox\s*{[^}]*padding-block:\s*clamp\(32px,\s*4vw,\s*56px\)\s+0;/s);
+  assert.match(css, /\.tool-row-compact\s*{[^}]*grid-template-columns:/s);
 });
 
-test('closing section invites visitors to create with the BusinessPress platform', async () => {
+test('closing section returns visitors to the task chooser before offering custom work', async () => {
   const [html, css] = await Promise.all([
     readFile(htmlPath, 'utf8'),
     readFile(cssPath, 'utf8'),
   ]);
 
-  assert.match(html, /Create with BusinessPress/);
-  assert.match(html, /Build what your business needs next\./);
-  assert.match(html, /Turn your ideas and workflows into tools and websites of your own\./);
+  assert.match(html, /Still deciding\? Start with the task\./);
+  assert.match(html, /Choose what you need to do, then jump straight to the matching tool\./);
   assert.match(html, /<section class="closing-section">/);
-  assert.match(html, /<ul class="closing-outcomes" aria-label="What you can create">/);
-  assert.match(html, /<li>Custom tools<\/li>/);
-  assert.match(html, /<li>Business websites<\/li>/);
-  assert.match(html, /<li>Built around your workflow<\/li>/);
-  assert.match(html, /class="button button-light" href="https:\/\/businesspress\.io\/\?utm_source=tools\.businesspress\.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub" target="_blank" rel="noopener noreferrer">Explore BusinessPress/);
-  assert.match(css, /\.closing-section\s*{[^}]*background:\s*linear-gradient\(/s);
+  assert.match(html, /class="button button-light" href="#tool-chooser">Choose by task <span aria-hidden="true">↑<\/span><\/a>/);
+  assert.doesNotMatch(html, /class="closing-kicker"|class="closing-outcomes"/);
+  assert.match(html, /class="closing-secondary" href="https:\/\/businesspress\.io\/\?utm_source=tools\.businesspress\.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub" target="_blank" rel="noopener noreferrer">Need something custom\? Visit BusinessPress <span aria-hidden="true">↗<\/span><\/a>/);
+  assert.match(css, /\.closing-section\s*{[^}]*background:\s*var\(--ink\);/s);
   assert.match(css, /\.closing\s*{[^}]*display:\s*grid;[^}]*grid-template-columns:/s);
   assert.match(css, /\.closing-intro\s*{[^}]*max-width:\s*58ch;/s);
   assert.match(css, /\.closing-action\s*{[^}]*border-left:\s*1px solid/s);
@@ -299,6 +304,7 @@ test('analytics and search discovery assets are configured', async () => {
   assert.match(html, /<script defer data-domain="tools\.businesspress\.io" src="https:\/\/stats\.businesspress\.io\/js\/script\.js"><\/script>/);
   assert.match(robots, /Sitemap: https:\/\/tools\.businesspress\.io\/sitemap\.xml/);
   assert.match(sitemap, /<loc>https:\/\/tools\.businesspress\.io\/<\/loc>/);
+  assert.match(sitemap, /<loc>https:\/\/tools\.businesspress\.io\/<\/loc>\s*<lastmod>2026-08-15<\/lastmod>/);
   assert.match(sitemap, /<loc>https:\/\/tools\.businesspress\.io\/updates\/<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/tools\.businesspress\.io\/sitemap\/<\/loc>/);
   assert.match(sitemap, /<lastmod>2026-08-14<\/lastmod>/);
@@ -370,9 +376,9 @@ test('extended SEO content matches its structured data', async () => {
   assert.equal(itemList.numberOfItems, 6);
   assert.equal(itemList.itemListElement.length, 6);
   assert.equal(faqPage.mainEntity.length, 8);
-  assert.match(html, /<section class="guide-section" aria-labelledby="guide-title">/);
-  assert.match(html, /Choose the task\./);
-  assert.match(html, /Inspect SEO markup/);
+  assert.match(html, /<nav class="tool-deck-options" id="tool-chooser"/);
+  assert.match(html, /Choose by task/);
+  assert.match(html, /Inspect SEO/);
   assert.equal([...html.matchAll(/<details(?: open)?>/g)].length, 8);
 
   for (const question of faqPage.mainEntity) {
@@ -399,7 +405,7 @@ test('header and footer use the locally stored official BusinessPress logo', asy
   assert.equal(logoReferences.length, 2);
   assert.doesNotMatch(html, /class="brand-mark"/);
   assert.doesNotMatch(header, /href="https:\/\/businesspress\.io\//);
-  assert.match(header, /class="header-cta" href="#toolbox"/);
+  assert.match(header, /class="header-cta" href="#tool-chooser"/);
   assert.match(footer, new RegExp(`class="powered-by" href="${trackedUrl('https://businesspress.io/').replaceAll('.', '\\.').replaceAll('?', '\\?')}`));
   assert.match(footer, /target="_blank" rel="noopener noreferrer" aria-label="Powered by BusinessPress, opens in a new tab"/);
   assert.match(footer, /class="powered-label">Powered by<\/span>/);
@@ -407,21 +413,16 @@ test('header and footer use the locally stored official BusinessPress logo', asy
   await access(logoPath);
 });
 
-test('footer credits Laravel and Tailwind CSS with local official logos', async () => {
+test('footer stays focused on navigation and omits implementation-stack promotion', async () => {
   const [html, css] = await Promise.all([
     readFile(htmlPath, 'utf8'),
     readFile(cssPath, 'utf8'),
   ]);
   const footer = html.match(/<footer\b[\s\S]*?<\/footer>/)?.[0] ?? '';
 
-  assert.match(footer, /class="footer-technology" aria-label="Powered by Laravel and Tailwind CSS"/);
-  assert.match(footer, /src="assets\/technology\/laravel\.svg" width="50" height="52" alt=""/);
-  assert.match(footer, /src="assets\/technology\/tailwindcss\.svg" width="54" height="33" alt=""/);
-  assert.match(footer, new RegExp(`href="${trackedUrl('https://laravel.com/').replaceAll('.', '\\.').replaceAll('?', '\\?')}`));
-  assert.match(footer, new RegExp(`href="${trackedUrl('https://tailwindcss.com/').replaceAll('.', '\\.').replaceAll('?', '\\?')}`));
-  assert.match(css, /\.footer-technology\s*{[^}]*display:\s*flex;[^}]*flex-wrap:\s*wrap;/s);
-  assert.match(css, /\.technology-brand img\s*{[^}]*object-fit:\s*contain;/s);
-  await Promise.all([access(laravelLogoPath), access(tailwindLogoPath)]);
+  assert.match(footer, /class="footer-links" aria-label="Tool links"/);
+  assert.doesNotMatch(footer, /footer-technology|technology-brand|laravel\.svg|tailwindcss\.svg|laravel\.com|tailwindcss\.com/);
+  assert.doesNotMatch(css, /\.footer-technology|\.technology-brand/);
 });
 
 test('styles include responsive, focus, and reduced-motion behavior', async () => {
@@ -451,7 +452,7 @@ test('polished hierarchy avoids decorative metrics and numbering', async () => {
   assert.doesNotMatch(html, /class="tool-count"/);
   assert.doesNotMatch(html, /\b0[1-5]\s*\/\s*(Documents|Data|Finance|Sharing|Time)/);
   assert.doesNotMatch(html, /<span>0[1-5]<\/span>\s*(PDF|CSV|VAT|QR|Clock)/);
-  assert.match(html, /class="header-cta" href="#toolbox">Browse tools/);
+  assert.match(html, /class="header-cta" href="#tool-chooser">Choose tool/);
 });
 
 test('polished interactions use shared motion, touch, and shape tokens', async () => {
