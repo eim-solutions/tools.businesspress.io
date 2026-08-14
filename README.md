@@ -18,6 +18,14 @@ Then open `http://127.0.0.1:4173/`.
 node --test tests/site.test.mjs
 ```
 
+## Publishing an update
+
+The public changelog lives at `public/updates/index.html`.
+
+1. Copy an existing `.update-entry` article and place the newest entry first.
+2. Update the page’s `Blog` structured data and `public/sitemap.xml` dates.
+3. Run `node --test tests/site.test.mjs`, then preview `/updates/` on desktop and mobile.
+
 ## Brand asset
 
 The official BusinessPress logo is stored locally at `public/assets/brand/businesspress-logo.png`. It was downloaded from the asset referenced by [businesspress.io](https://businesspress.io/): `https://pdf.businesspress.io/build/images/bp-logo.png`.

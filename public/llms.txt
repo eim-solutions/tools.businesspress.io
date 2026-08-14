@@ -4,7 +4,7 @@ BusinessPress Tools is the directory for free, practical browser utilities publi
 
 ## Tools
 
-- PDF tools: https://pdf.businesspress.io/
+- PDF tools: https://pdfcheck.online/
 - CSV validator: https://csv.businesspress.io/
 - EU VAT calculator: https://vat.businesspress.io/
 - QR code generator: https://qr.businesspress.io/
@@ -12,6 +12,10 @@ BusinessPress Tools is the directory for free, practical browser utilities publi
 - SEOMarkup schema, SEO, social preview, and tracking checker: https://schema.businesspress.io/
 
 The directory shows each tool with a direct link and a real interface preview. Processing and privacy details are explained inside each individual tool.
+
+## Updates
+
+- Product updates and launch news: https://tools.businesspress.io/updates/
 
 ## Publisher
 

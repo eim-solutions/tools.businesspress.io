@@ -13,12 +13,13 @@ const tailwindLogoPath = new URL('public/assets/technology/tailwindcss.svg', roo
 const robotsPath = new URL('public/robots.txt', root);
 const sitemapPath = new URL('public/sitemap.xml', root);
 const htmlSitemapPath = new URL('public/sitemap/index.html', root);
+const updatesPath = new URL('public/updates/index.html', root);
 const llmsPath = new URL('public/llms.txt', root);
 const trackingQuery = 'utm_source=tools.businesspress.io&amp;utm_medium=referral&amp;utm_campaign=businesspress_tools_hub';
 const trackedUrl = (url) => `${url}?${trackingQuery}`;
 
 const tools = [
-  ['PDF tools', 'https://pdf.businesspress.io/', 'pdf.webp'],
+  ['PDF tools', 'https://pdfcheck.online/', 'pdf.webp'],
   ['CSV tools', 'https://csv.businesspress.io/', 'csv.webp'],
   ['EU VAT info', 'https://vat.businesspress.io/', 'vat.webp'],
   ['QR generator', 'https://qr.businesspress.io/', 'qr.webp'],
@@ -34,7 +35,7 @@ test('page contains the required semantic structure and metadata', async () => {
   assert.match(html, /<meta name="robots" content="index,follow,max-image-preview:large">/);
   assert.match(html, /<link rel="canonical" href="https:\/\/tools\.businesspress\.io\/">/);
   assert.match(html, /<meta property="og:title" content="[^"]+">/);
-  assert.match(html, /href="assets\/css\/site\.css\?v=18"/);
+  assert.match(html, /href="assets\/css\/site\.css\?v=19"/);
   assert.match(html, /<header\b/);
   assert.match(html, /<nav\b[^>]*aria-label="Primary"/);
   assert.match(html, /<main\b[^>]*id="main-content"/);
@@ -75,7 +76,7 @@ test('hero presents a sphere-free six-tool preview deck', async () => {
   assert.equal(previewOptions.length, 6);
   assert.equal([...hero.matchAll(/data-preview-src="assets\/screenshots\/(?:pdf|csv|vat|qr|clock|schema)\.webp"/g)].length, 6);
   assert.equal([...hero.matchAll(/data-preview-alt="[^"]+"/g)].length, 6);
-  assert.equal([...hero.matchAll(/data-preview-domain="(?:pdf|csv|vat|qr|clock|schema)\.businesspress\.io"/g)].length, 6);
+  assert.equal([...hero.matchAll(/data-preview-domain="(?:pdfcheck\.online|(?:csv|vat|qr|clock|schema)\.businesspress\.io)"/g)].length, 6);
   assert.equal([...hero.matchAll(/data-preview-category="(?:Documents|Data|Finance|Sharing|Time|Websites)"/g)].length, 6);
   assert.match(html, /src="assets\/js\/site\.js\?v=3"/);
   assert.match(css, /\.tool-deck-option\s*\{[^}]*min-height:\s*44px;/s);
@@ -193,7 +194,7 @@ test('PDF section includes local Chrome extension artwork and both extension des
   ]);
   const pdfSection = html.match(/<article class="tool-row tool-pdf"[\s\S]*?<\/article>/)?.[0] ?? '';
   const storeUrl = trackedUrl('https://chromewebstore.google.com/detail/pdfcheck-pdf-analysis-too/nggkjpbbjpgkicbmmagejepipmjnfkbi');
-  const overviewUrl = trackedUrl('https://pdf.businesspress.io/chrome-extension');
+  const overviewUrl = trackedUrl('https://pdfcheck.online/chrome-extension');
 
   assert.match(pdfSection, new RegExp(`href="${storeUrl.replaceAll('.', '\\.').replaceAll('?', '\\?')}`));
   assert.match(pdfSection, new RegExp(`href="${overviewUrl.replaceAll('.', '\\.').replaceAll('?', '\\?')}`));
@@ -286,25 +287,53 @@ test('closing section invites visitors to create with the BusinessPress platform
 });
 
 test('analytics and search discovery assets are configured', async () => {
-  const [html, robots, sitemap, htmlSitemap, llms] = await Promise.all([
+  const [html, robots, sitemap, htmlSitemap, updates, llms] = await Promise.all([
     readFile(htmlPath, 'utf8'),
     readFile(robotsPath, 'utf8'),
     readFile(sitemapPath, 'utf8'),
     readFile(htmlSitemapPath, 'utf8'),
+    readFile(updatesPath, 'utf8'),
     readFile(llmsPath, 'utf8'),
   ]);
 
   assert.match(html, /<script defer data-domain="tools\.businesspress\.io" src="https:\/\/stats\.businesspress\.io\/js\/script\.js"><\/script>/);
   assert.match(robots, /Sitemap: https:\/\/tools\.businesspress\.io\/sitemap\.xml/);
   assert.match(sitemap, /<loc>https:\/\/tools\.businesspress\.io\/<\/loc>/);
+  assert.match(sitemap, /<loc>https:\/\/tools\.businesspress\.io\/updates\/<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/tools\.businesspress\.io\/sitemap\/<\/loc>/);
-  assert.match(sitemap, /<lastmod>2026-08-11<\/lastmod>/);
+  assert.match(sitemap, /<lastmod>2026-08-14<\/lastmod>/);
   assert.match(html, /<footer>[\s\S]*href="\/sitemap\/"/);
+  assert.match(html, /href="\/updates\/"/);
   assert.match(htmlSitemap, /<link rel="canonical" href="https:\/\/tools\.businesspress\.io\/sitemap\/">/);
+  assert.match(htmlSitemap, /href="\/updates\/"/);
   assert.match(htmlSitemap, /href="\/sitemap\.xml"/);
   for (const [, url] of tools) assert.match(htmlSitemap, new RegExp(url.replaceAll('.', '\\.')));
   assert.match(await readFile(cssPath, 'utf8'), /\.sitemap-links\s*{[^}]*display:\s*block;/s);
+  assert.match(updates, /<link rel="canonical" href="https:\/\/tools\.businesspress\.io\/updates\/">/);
   assert.match(llms, /https:\/\/schema\.businesspress\.io\//);
+  assert.match(llms, /https:\/\/tools\.businesspress\.io\/updates\//);
+});
+
+test('updates page provides a chronological, reusable product news stream', async () => {
+  const [updates, css] = await Promise.all([
+    readFile(updatesPath, 'utf8'),
+    readFile(cssPath, 'utf8'),
+  ]);
+  const jsonLdText = updates.match(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/)?.[1] ?? '';
+  const jsonLd = JSON.parse(jsonLdText);
+
+  assert.equal(jsonLd['@type'], 'Blog');
+  assert.equal(jsonLd.blogPost.length, 2);
+  assert.equal([...updates.matchAll(/<article class="update-entry"/g)].length, 2);
+  assert.ok(updates.indexOf('datetime="2026-08-14"') < updates.indexOf('datetime="2026-08-11"'));
+  assert.match(updates, /PDFCheck has a new home at pdfcheck\.online/);
+  assert.match(updates, /SEOMarkup joins the BusinessPress toolbox/);
+  assert.match(updates, new RegExp(trackedUrl('https://pdfcheck.online/').replaceAll('.', '\\.').replaceAll('?', '\\?')));
+  assert.doesNotMatch(updates, /pdf\.businesspress\.io/);
+  assert.match(updates, /aria-current="page">Updates<\/a>/);
+  assert.match(css, /\.updates-layout\s*\{[^}]*display:\s*grid;/s);
+  assert.match(css, /\.update-entry\s*\{[^}]*display:\s*grid;/s);
+  assert.match(css, /@media \(max-width: 639px\)[\s\S]*?\.update-entry\s*\{[^}]*grid-template-columns:\s*1fr;/s);
 });
 
 test('extended SEO content matches its structured data', async () => {
