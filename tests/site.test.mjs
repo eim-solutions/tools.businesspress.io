@@ -312,12 +312,15 @@ test('analytics and search discovery assets are configured', async () => {
   assert.match(updates, /<link rel="canonical" href="https:\/\/tools\.businesspress\.io\/updates\/">/);
   assert.match(llms, /https:\/\/schema\.businesspress\.io\//);
   assert.match(llms, /https:\/\/tools\.businesspress\.io\/updates\//);
+  assert.match(llms, /## Updates/);
+  assert.doesNotMatch(llms, /Changelog/);
 });
 
 test('updates page provides a chronological, reusable product news stream', async () => {
-  const [html, updates, css] = await Promise.all([
+  const [html, updates, htmlSitemap, css] = await Promise.all([
     readFile(htmlPath, 'utf8'),
     readFile(updatesPath, 'utf8'),
+    readFile(htmlSitemapPath, 'utf8'),
     readFile(cssPath, 'utf8'),
   ]);
   const jsonLdText = updates.match(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/)?.[1] ?? '';
@@ -330,9 +333,9 @@ test('updates page provides a chronological, reusable product news stream', asyn
   assert.ok(jsonLd.blogPost.every((post) => post.description && post.dateModified));
   assert.equal([...updates.matchAll(/<article class="update-entry"/g)].length, 2);
   assert.ok(updates.indexOf('datetime="2026-08-14"') < updates.indexOf('datetime="2026-08-11"'));
-  assert.match(updates, /<title>BusinessPress Tools Changelog \| New Tools &amp; Updates<\/title>/);
-  assert.match(updates, /<meta name="description" content="Read the BusinessPress Tools changelog/);
-  assert.match(updates, /<h1>BusinessPress Tools changelog\.<\/h1>/);
+  assert.match(updates, /<title>BusinessPress Tools Updates \| New Tools &amp; Product News<\/title>/);
+  assert.match(updates, /<meta name="description" content="Read BusinessPress Tools updates/);
+  assert.match(updates, /<h1>BusinessPress Tools updates\.<\/h1>/);
   assert.match(updates, /Follow new tool launches, product improvements, and important changes across BusinessPress Tools\./);
   assert.match(updates, /href="#pdfcheck-new-home">Read the latest update/);
   assert.match(updates, /<header class="updates-stream-heading">/);
@@ -341,9 +344,11 @@ test('updates page provides a chronological, reusable product news stream', asyn
   assert.match(updates, /SEOMarkup joins the BusinessPress toolbox/);
   assert.match(updates, new RegExp(trackedUrl('https://pdfcheck.online/').replaceAll('.', '\\.').replaceAll('?', '\\?')));
   assert.doesNotMatch(updates, /pdf\.businesspress\.io/);
-  assert.match(updates, /aria-current="page">Changelog<\/a>/);
-  assert.match(html, /class="header-link" href="\/updates\/">Changelog<\/a>/);
-  assert.match(html, /<footer>[\s\S]*href="\/updates\/">Changelog<\/a>/);
+  assert.match(updates, /aria-current="page">Updates<\/a>/);
+  assert.match(html, /class="header-link" href="\/updates\/">Updates<\/a>/);
+  assert.match(html, /<footer>[\s\S]*href="\/updates\/">Updates<\/a>/);
+  assert.match(htmlSitemap, /href="\/updates\/">Updates<\/a>/);
+  assert.doesNotMatch(`${html}\n${updates}\n${htmlSitemap}`, />Changelog<\/a>|<span>Changelog<\/span>/);
   assert.doesNotMatch(updates, /<aside|Update archive|>Archive<|updates-index/);
   assert.doesNotMatch(css, /\.updates-layout|\.updates-index|\.updates-kicker/);
   assert.match(css, /\.updates-hero-grid\s*\{[^}]*min-height:\s*360px;[^}]*display:\s*grid;/s);

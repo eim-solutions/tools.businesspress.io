@@ -13,7 +13,7 @@ BusinessPress Tools is the directory for free, practical browser utilities publi
 
 The directory shows each tool with a direct link and a real interface preview. Processing and privacy details are explained inside each individual tool.
 
-## Changelog and updates
+## Updates
 
 - Product updates and launch news: https://tools.businesspress.io/updates/
 
